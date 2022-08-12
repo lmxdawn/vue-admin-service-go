@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+package api.rbac.service.v1;
+
+option go_package = "vue-admin/api/rbac/service/v1;v1";
+
+service Rbac {
+	rpc CreateAdmin (CreateAdminRequest) returns (CreateAdminReply);
+	rpc UpdateAdmin (UpdateAdminRequest) returns (UpdateAdminReply);
+	rpc DeleteAdmin (DeleteAdminRequest) returns (DeleteAdminReply);
+	rpc GetAdmin (GetAdminRequest) returns (GetAdminReply);
+	rpc ListAdmin (ListAdminRequest) returns (ListAdminReply);
+}
+
+message CreateAdminRequest {
+	string username = 1;
+}
+
+message CreateAdminReply {
+	message Admin {
+		int64 id = 1;
+		string username = 2;
+	}
+	Admin admin = 1;
+}
+
+message UpdateAdminRequest {}
+message UpdateAdminReply {}
+
+message DeleteAdminRequest {}
+message DeleteAdminReply {}
+
+message GetAdminRequest {}
+message GetAdminReply {}
+
+message ListAdminRequest {}
+message ListAdminReply {}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package api.ui.admin.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "vue-admin/api/ui/admin/v1;v1";
+
+service UiAdmin {
+	rpc CreateAdmin (CreateAdminRequest) returns (CreateAdminReply) {
+		option (google.api.http) = {
+			post: "/admin/v1/admin"
+			body: "*"
+		};
+	}
+}
+
+message CreateAdminRequest {
+	string name = 1;
+}
+message CreateAdminReply {
+	string name = 1;
+}
