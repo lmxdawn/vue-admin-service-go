@@ -2,12 +2,21 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 )
 
 // PermissionRule holds the schema definition for the PermissionRule entity.
 type PermissionRule struct {
 	ent.Schema
+}
+
+// Annotations 用户实体的注解
+func (PermissionRule) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{Table: "permission_rule"},
+	}
 }
 
 // Fields of the PermissionRule.

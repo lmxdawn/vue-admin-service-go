@@ -14,7 +14,7 @@ const (
 	// FieldType holds the string denoting the type field in the database.
 	FieldType = "type"
 	// Table holds the table name of the permission in the database.
-	Table = "permissions"
+	Table = "permission"
 )
 
 // Columns holds all SQL columns for permission fields.

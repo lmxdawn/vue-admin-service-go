@@ -22,7 +22,7 @@ const (
 	// FieldUpdateTime holds the string denoting the update_time field in the database.
 	FieldUpdateTime = "update_time"
 	// Table holds the table name of the role in the database.
-	Table = "roles"
+	Table = "role"
 )
 
 // Columns holds all SQL columns for role fields.

@@ -24,7 +24,7 @@ const (
 	// FieldUpdateTime holds the string denoting the update_time field in the database.
 	FieldUpdateTime = "update_time"
 	// Table holds the table name of the permissionrule in the database.
-	Table = "permission_rules"
+	Table = "permission_rule"
 )
 
 // Columns holds all SQL columns for permissionrule fields.

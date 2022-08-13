@@ -12,7 +12,7 @@ const (
 	// FieldAdminID holds the string denoting the admin_id field in the database.
 	FieldAdminID = "admin_id"
 	// Table holds the table name of the roleadmin in the database.
-	Table = "role_admins"
+	Table = "role_admin"
 )
 
 // Columns holds all SQL columns for roleadmin fields.

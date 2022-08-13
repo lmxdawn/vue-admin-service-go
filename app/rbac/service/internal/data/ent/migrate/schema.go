@@ -3,13 +3,14 @@
 package migrate
 
 import (
+	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/dialect/sql/schema"
 	"entgo.io/ent/schema/field"
 )
 
 var (
-	// AdminsColumns holds the columns for the "admins" table.
-	AdminsColumns = []*schema.Column{
+	// AdminColumns holds the columns for the "admin" table.
+	AdminColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "username", Type: field.TypeString},
 		{Name: "password", Type: field.TypeString},
@@ -23,27 +24,27 @@ var (
 		{Name: "create_time", Type: field.TypeTime},
 		{Name: "update_time", Type: field.TypeTime},
 	}
-	// AdminsTable holds the schema information for the "admins" table.
-	AdminsTable = &schema.Table{
-		Name:       "admins",
-		Columns:    AdminsColumns,
-		PrimaryKey: []*schema.Column{AdminsColumns[0]},
+	// AdminTable holds the schema information for the "admin" table.
+	AdminTable = &schema.Table{
+		Name:       "admin",
+		Columns:    AdminColumns,
+		PrimaryKey: []*schema.Column{AdminColumns[0]},
 	}
-	// PermissionsColumns holds the columns for the "permissions" table.
-	PermissionsColumns = []*schema.Column{
+	// PermissionColumns holds the columns for the "permission" table.
+	PermissionColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "role_id", Type: field.TypeInt},
 		{Name: "permission_rule_id", Type: field.TypeInt},
 		{Name: "type", Type: field.TypeString},
 	}
-	// PermissionsTable holds the schema information for the "permissions" table.
-	PermissionsTable = &schema.Table{
-		Name:       "permissions",
-		Columns:    PermissionsColumns,
-		PrimaryKey: []*schema.Column{PermissionsColumns[0]},
+	// PermissionTable holds the schema information for the "permission" table.
+	PermissionTable = &schema.Table{
+		Name:       "permission",
+		Columns:    PermissionColumns,
+		PrimaryKey: []*schema.Column{PermissionColumns[0]},
 	}
-	// PermissionRulesColumns holds the columns for the "permission_rules" table.
-	PermissionRulesColumns = []*schema.Column{
+	// PermissionRuleColumns holds the columns for the "permission_rule" table.
+	PermissionRuleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "pid", Type: field.TypeInt},
 		{Name: "name", Type: field.TypeString},
@@ -54,14 +55,14 @@ var (
 		{Name: "create_time", Type: field.TypeTime},
 		{Name: "update_time", Type: field.TypeTime},
 	}
-	// PermissionRulesTable holds the schema information for the "permission_rules" table.
-	PermissionRulesTable = &schema.Table{
-		Name:       "permission_rules",
-		Columns:    PermissionRulesColumns,
-		PrimaryKey: []*schema.Column{PermissionRulesColumns[0]},
+	// PermissionRuleTable holds the schema information for the "permission_rule" table.
+	PermissionRuleTable = &schema.Table{
+		Name:       "permission_rule",
+		Columns:    PermissionRuleColumns,
+		PrimaryKey: []*schema.Column{PermissionRuleColumns[0]},
 	}
-	// RolesColumns holds the columns for the "roles" table.
-	RolesColumns = []*schema.Column{
+	// RoleColumns holds the columns for the "role" table.
+	RoleColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "pid", Type: field.TypeInt},
@@ -71,33 +72,48 @@ var (
 		{Name: "create_time", Type: field.TypeTime},
 		{Name: "update_time", Type: field.TypeTime},
 	}
-	// RolesTable holds the schema information for the "roles" table.
-	RolesTable = &schema.Table{
-		Name:       "roles",
-		Columns:    RolesColumns,
-		PrimaryKey: []*schema.Column{RolesColumns[0]},
+	// RoleTable holds the schema information for the "role" table.
+	RoleTable = &schema.Table{
+		Name:       "role",
+		Columns:    RoleColumns,
+		PrimaryKey: []*schema.Column{RoleColumns[0]},
 	}
-	// RoleAdminsColumns holds the columns for the "role_admins" table.
-	RoleAdminsColumns = []*schema.Column{
+	// RoleAdminColumns holds the columns for the "role_admin" table.
+	RoleAdminColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "role_id", Type: field.TypeInt},
 		{Name: "admin_id", Type: field.TypeInt},
 	}
-	// RoleAdminsTable holds the schema information for the "role_admins" table.
-	RoleAdminsTable = &schema.Table{
-		Name:       "role_admins",
-		Columns:    RoleAdminsColumns,
-		PrimaryKey: []*schema.Column{RoleAdminsColumns[0]},
+	// RoleAdminTable holds the schema information for the "role_admin" table.
+	RoleAdminTable = &schema.Table{
+		Name:       "role_admin",
+		Columns:    RoleAdminColumns,
+		PrimaryKey: []*schema.Column{RoleAdminColumns[0]},
 	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
-		AdminsTable,
-		PermissionsTable,
-		PermissionRulesTable,
-		RolesTable,
-		RoleAdminsTable,
+		AdminTable,
+		PermissionTable,
+		PermissionRuleTable,
+		RoleTable,
+		RoleAdminTable,
 	}
 )
 
 func init() {
+	AdminTable.Annotation = &entsql.Annotation{
+		Table: "admin",
+	}
+	PermissionTable.Annotation = &entsql.Annotation{
+		Table: "permission",
+	}
+	PermissionRuleTable.Annotation = &entsql.Annotation{
+		Table: "permission_rule",
+	}
+	RoleTable.Annotation = &entsql.Annotation{
+		Table: "role",
+	}
+	RoleAdminTable.Annotation = &entsql.Annotation{
+		Table: "role_admin",
+	}
 }

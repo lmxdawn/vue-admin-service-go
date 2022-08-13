@@ -2,12 +2,21 @@ package schema
 
 import (
 	"entgo.io/ent"
+	"entgo.io/ent/dialect/entsql"
+	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
 )
 
 // Admin holds the schema definition for the Admin entity.
 type Admin struct {
 	ent.Schema
+}
+
+// Annotations 用户实体的注解
+func (Admin) Annotations() []schema.Annotation {
+	return []schema.Annotation{
+		entsql.Annotation{Table: "admin"},
+	}
 }
 
 // Fields of the Admin.

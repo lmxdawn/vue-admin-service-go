@@ -30,7 +30,7 @@ const (
 	// FieldUpdateTime holds the string denoting the update_time field in the database.
 	FieldUpdateTime = "update_time"
 	// Table holds the table name of the admin in the database.
-	Table = "admins"
+	Table = "admin"
 )
 
 // Columns holds all SQL columns for admin fields.
