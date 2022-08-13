@@ -8,22 +8,22 @@ import (
 	"vue-admin/app/ui/admin/internal/biz"
 )
 
-type rbacRepo struct {
+type adminRepo struct {
 	data *Data
 	log  *log.Helper
 }
 
-// NewRbacRepo .
-func NewRbacRepo(data *Data, logger log.Logger) biz.RbacRepo {
-	return &rbacRepo{
+// NewAdminRepo .
+func NewAdminRepo(data *Data, logger log.Logger) biz.AdminRepo {
+	return &adminRepo{
 		data: data,
 		log:  log.NewHelper(logger),
 	}
 }
 
-func (r *rbacRepo) CreateAdmin(ctx context.Context, admin *biz.Admin) (*biz.Admin, error) {
+func (r *adminRepo) CreateAdmin(ctx context.Context, admin *biz.Admin) (*biz.Admin, error) {
 
-	res, err := r.data.rc.CreateAdmin(ctx, &rbacv1.CreateAdminRequest{
+	res, err := r.data.ra.CreateAdmin(ctx, &rbacv1.CreateAdminRequest{
 		Username: admin.Username,
 	})
 

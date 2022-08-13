@@ -4,7 +4,7 @@ package api.rbac.service.v1;
 
 option go_package = "vue-admin/api/rbac/service/v1;v1";
 
-service Rbac {
+service Admin {
 	rpc CreateAdmin (CreateAdminRequest) returns (CreateAdminReply);
 	rpc UpdateAdmin (UpdateAdminRequest) returns (UpdateAdminReply);
 	rpc DeleteAdmin (DeleteAdminRequest) returns (DeleteAdminReply);

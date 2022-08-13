@@ -6,18 +6,18 @@ import "google/api/annotations.proto";
 
 option go_package = "vue-admin/api/ui/admin/v1;v1";
 
-service UiAdmin {
-	rpc CreateAdmin (CreateAdminRequest) returns (CreateAdminReply) {
+service RbacAdmin {
+	rpc CreateRbacAdmin (CreateRbacAdminRequest) returns (CreateRbacAdminReply) {
 		option (google.api.http) = {
-			post: "/admin/v1/admin"
+			post: "/admin/v1/rbac/admin"
 			body: "*"
 		};
 	}
 }
 
-message CreateAdminRequest {
+message CreateRbacAdminRequest {
 	string name = 1;
 }
-message CreateAdminReply {
+message CreateRbacAdminReply {
 	string name = 1;
 }

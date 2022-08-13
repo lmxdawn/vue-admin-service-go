@@ -26,8 +26,11 @@ func wireApp(confServer *conf.Server, registry *conf.Registry, confData *conf.Da
 	}
 	adminRepo := data.NewAdminRepo(dataData, logger)
 	adminUsecase := biz.NewAdminUsecase(adminRepo, logger)
-	rbacService := service.NewAdminService(adminUsecase)
-	grpcServer := server.NewGRPCServer(confServer, auth, rbacService, logger)
+	adminService := service.NewAdminService(adminUsecase)
+	roleRepo := data.NewRoleRepo(dataData, logger)
+	roleUsecase := biz.NewRoleUsecase(roleRepo, logger)
+	roleService := service.NewRoleService(roleUsecase)
+	grpcServer := server.NewGRPCServer(confServer, auth, adminService, roleService, logger)
 	registrar := server.NewRegistrar(registry)
 	app := newApp(logger, grpcServer, registrar)
 	return app, func() {

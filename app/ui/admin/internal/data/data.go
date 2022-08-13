@@ -11,6 +11,7 @@ import (
 	jwt2 "github.com/golang-jwt/jwt/v4"
 	"github.com/google/wire"
 	consulAPI "github.com/hashicorp/consul/api"
+	grpcClient "google.golang.org/grpc"
 	"vue-admin/app/ui/admin/internal/conf"
 
 	rbacV1 "vue-admin/api/rbac/service/v1"
@@ -21,24 +22,33 @@ var ProviderSet = wire.NewSet(
 	NewData,
 	NewDiscovery,
 	NewRegistrar,
-	NewRbacServiceClient,
-	NewRbacRepo,
+	NewRbacServiceConn,
+	NewRbacServiceAdminClient,
+	NewRbacServiceRoleClient,
+	NewAdminRepo,
+	NewRoleRepo,
 )
 
 // Data .
 type Data struct {
 	log *log.Helper
-	rc  rbacV1.RbacClient
+	ra  rbacV1.AdminClient
+	rr  rbacV1.RoleClient
 }
 
 // NewData .
 func NewData(
 	conf *conf.Data,
 	logger log.Logger,
-	rc rbacV1.RbacClient,
+	ra rbacV1.AdminClient,
+	rr rbacV1.RoleClient,
 ) (*Data, error) {
 	l := log.NewHelper(log.With(logger, "module", "data"))
-	return &Data{log: l, rc: rc}, nil
+	return &Data{
+		log: l,
+		ra:  ra,
+		rr:  rr,
+	}, nil
 }
 
 func NewDiscovery(conf *conf.Registry) registry.Discovery {
@@ -65,7 +75,7 @@ func NewRegistrar(conf *conf.Registry) registry.Registrar {
 	return r
 }
 
-func NewRbacServiceClient(ac *conf.Auth, r registry.Discovery) rbacV1.RbacClient {
+func NewRbacServiceConn(ac *conf.Auth, r registry.Discovery) *grpcClient.ClientConn {
 	conn, err := grpc.DialInsecure(
 		context.Background(),
 		grpc.WithEndpoint("discovery:///rbac.service"),
@@ -80,6 +90,13 @@ func NewRbacServiceClient(ac *conf.Auth, r registry.Discovery) rbacV1.RbacClient
 	if err != nil {
 		panic(err)
 	}
-	c := rbacV1.NewRbacClient(conn)
-	return c
+	return conn
+}
+
+func NewRbacServiceAdminClient(gc *grpcClient.ClientConn) rbacV1.AdminClient {
+	return rbacV1.NewAdminClient(gc)
+}
+
+func NewRbacServiceRoleClient(gc *grpcClient.ClientConn) rbacV1.RoleClient {
+	return rbacV1.NewRoleClient(gc)
 }

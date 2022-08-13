@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package api.rbac.service.v1;
+
+option go_package = "vue-admin/api/rbac/service/v1;v1";
+
+service Role {
+	rpc CreateRole (CreateRoleRequest) returns (CreateRoleReply);
+	rpc UpdateRole (UpdateRoleRequest) returns (UpdateRoleReply);
+	rpc DeleteRole (DeleteRoleRequest) returns (DeleteRoleReply);
+	rpc GetRole (GetRoleRequest) returns (GetRoleReply);
+	rpc ListRole (ListRoleRequest) returns (ListRoleReply);
+}
+
+message CreateRoleRequest {
+	string name = 1;
+}
+message CreateRoleReply {
+	string name = 1;
+}
+
+message UpdateRoleRequest {}
+message UpdateRoleReply {}
+
+message DeleteRoleRequest {}
+message DeleteRoleReply {}
+
+message GetRoleRequest {}
+message GetRoleReply {}
+
+message ListRoleRequest {}
+message ListRoleReply {}

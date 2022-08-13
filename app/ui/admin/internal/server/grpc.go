@@ -13,7 +13,13 @@ import (
 )
 
 // NewGRPCServer new a gRPC server.
-func NewGRPCServer(c *conf.Server, ac *conf.Auth, u *service.UiAdmin, logger log.Logger) *grpc.Server {
+func NewGRPCServer(
+	c *conf.Server,
+	ac *conf.Auth,
+	ra *service.RbacAdmin,
+	rr *service.RbacRole,
+	logger log.Logger,
+) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
@@ -33,6 +39,7 @@ func NewGRPCServer(c *conf.Server, ac *conf.Auth, u *service.UiAdmin, logger log
 		opts = append(opts, grpc.Timeout(c.Grpc.Timeout.AsDuration()))
 	}
 	srv := grpc.NewServer(opts...)
-	v1.RegisterUiAdminServer(srv, u)
+	v1.RegisterRbacAdminServer(srv, ra)
+	v1.RegisterRbacRoleServer(srv, rr)
 	return srv
 }

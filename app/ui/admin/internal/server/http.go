@@ -13,7 +13,12 @@ import (
 )
 
 // NewHTTPServer new a HTTP server.
-func NewHTTPServer(c *conf.Server, u *service.UiAdmin, logger log.Logger) *http.Server {
+func NewHTTPServer(
+	c *conf.Server,
+	ra *service.RbacAdmin,
+	rr *service.RbacRole,
+	logger log.Logger,
+) *http.Server {
 	var opts = []http.ServerOption{
 		http.Middleware(
 			recovery.Recovery(),
@@ -30,6 +35,7 @@ func NewHTTPServer(c *conf.Server, u *service.UiAdmin, logger log.Logger) *http.
 		opts = append(opts, http.Timeout(c.Http.Timeout.AsDuration()))
 	}
 	srv := http.NewServer(opts...)
-	v1.RegisterUiAdminHTTPServer(srv, u)
+	v1.RegisterRbacAdminHTTPServer(srv, ra)
+	v1.RegisterRbacRoleHTTPServer(srv, rr)
 	return srv
 }

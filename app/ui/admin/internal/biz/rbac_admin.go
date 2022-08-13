@@ -16,23 +16,23 @@ type Admin struct {
 	Username string
 }
 
-type RbacRepo interface {
-	CreateAdmin(ctx context.Context, admin *Admin) (*Admin, error)
+type AdminRepo interface {
+	CreateAdmin(ctx context.Context, a *Admin) (*Admin, error)
 }
 
-type RbacUseCase struct {
-	repo RbacRepo
+type AdminUseCase struct {
+	repo AdminRepo
 	log  *log.Helper
 }
 
-func NewRbacUseCase(repo RbacRepo, logger log.Logger) *RbacUseCase {
+func NewAdminUseCase(repo AdminRepo, logger log.Logger) *AdminUseCase {
 	log := log.NewHelper(log.With(logger, "module", "usecase/interface"))
-	return &RbacUseCase{
+	return &AdminUseCase{
 		repo: repo,
 		log:  log,
 	}
 }
 
-func (rc *RbacUseCase) CreateAddress(ctx context.Context, admin *Admin) (*Admin, error) {
-	return rc.repo.CreateAdmin(ctx, admin)
+func (ra *AdminUseCase) CreateAdmin(ctx context.Context, a *Admin) (*Admin, error) {
+	return ra.repo.CreateAdmin(ctx, a)
 }

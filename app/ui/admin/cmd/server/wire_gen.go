@@ -21,16 +21,21 @@ import (
 // wireApp init kratos application.
 func wireApp(confServer *conf.Server, registry *conf.Registry, confData *conf.Data, auth *conf.Auth, logger log.Logger) (*kratos.App, func(), error) {
 	discovery := data.NewDiscovery(registry)
-	rbacClient := data.NewRbacServiceClient(auth, discovery)
-	dataData, err := data.NewData(confData, logger, rbacClient)
+	clientConn := data.NewRbacServiceConn(auth, discovery)
+	adminClient := data.NewRbacServiceAdminClient(clientConn)
+	roleClient := data.NewRbacServiceRoleClient(clientConn)
+	dataData, err := data.NewData(confData, logger, adminClient, roleClient)
 	if err != nil {
 		return nil, nil, err
 	}
-	rbacRepo := data.NewRbacRepo(dataData, logger)
-	rbacUseCase := biz.NewRbacUseCase(rbacRepo, logger)
-	uiAdmin := service.NewUiAdmin(rbacUseCase, logger)
-	grpcServer := server.NewGRPCServer(confServer, auth, uiAdmin, logger)
-	httpServer := server.NewHTTPServer(confServer, uiAdmin, logger)
+	adminRepo := data.NewAdminRepo(dataData, logger)
+	adminUseCase := biz.NewAdminUseCase(adminRepo, logger)
+	rbacAdmin := service.NewRbacAdmin(adminUseCase, logger)
+	roleRepo := data.NewRoleRepo(dataData, logger)
+	roleUseCase := biz.NewRoleUseCase(roleRepo, logger)
+	rbacRole := service.NewRbacRole(roleUseCase, logger)
+	grpcServer := server.NewGRPCServer(confServer, auth, rbacAdmin, rbacRole, logger)
+	httpServer := server.NewHTTPServer(confServer, rbacAdmin, rbacRole, logger)
 	registrar := data.NewRegistrar(registry)
 	app := newApp(logger, grpcServer, httpServer, registrar)
 	return app, func() {

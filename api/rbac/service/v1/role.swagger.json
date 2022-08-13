@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "v1/rbac.proto",
+    "title": "v1/role.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "Rbac"
+      "name": "Role"
     }
   ],
   "consumes": [
@@ -17,18 +17,6 @@
   ],
   "paths": {},
   "definitions": {
-    "CreateAdminReplyAdmin": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64"
-        },
-        "username": {
-          "type": "string"
-        }
-      }
-    },
     "protobufAny": {
       "type": "object",
       "properties": {
@@ -56,24 +44,24 @@
         }
       }
     },
-    "v1CreateAdminReply": {
+    "v1CreateRoleReply": {
       "type": "object",
       "properties": {
-        "admin": {
-          "$ref": "#/definitions/CreateAdminReplyAdmin"
+        "name": {
+          "type": "string"
         }
       }
     },
-    "v1DeleteAdminReply": {
+    "v1DeleteRoleReply": {
       "type": "object"
     },
-    "v1GetAdminReply": {
+    "v1GetRoleReply": {
       "type": "object"
     },
-    "v1ListAdminReply": {
+    "v1ListRoleReply": {
       "type": "object"
     },
-    "v1UpdateAdminReply": {
+    "v1UpdateRoleReply": {
       "type": "object"
     }
   }

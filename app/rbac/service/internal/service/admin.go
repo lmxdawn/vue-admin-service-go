@@ -6,8 +6,20 @@ import (
 	"vue-admin/app/rbac/service/internal/biz"
 )
 
+// AdminService is a greeter service.
+type AdminService struct {
+	v1.UnimplementedAdminServer
+
+	uc *biz.AdminUsecase
+}
+
+// NewAdminService new a service.
+func NewAdminService(uc *biz.AdminUsecase) *AdminService {
+	return &AdminService{uc: uc}
+}
+
 // CreateAdmin implements
-func (s *RbacService) CreateAdmin(ctx context.Context, in *v1.CreateAdminRequest) (*v1.CreateAdminReply, error) {
+func (s *AdminService) CreateAdmin(ctx context.Context, in *v1.CreateAdminRequest) (*v1.CreateAdminReply, error) {
 	g, err := s.uc.CreateAdmin(ctx, &biz.Admin{Username: in.Username})
 	if err != nil {
 		return nil, err

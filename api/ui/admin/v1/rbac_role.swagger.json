@@ -1,12 +1,12 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "v1/ui_admin.proto",
+    "title": "v1/rbac_role.proto",
     "version": "version not set"
   },
   "tags": [
     {
-      "name": "UiAdmin"
+      "name": "RbacRole"
     }
   ],
   "consumes": [
@@ -16,14 +16,14 @@
     "application/json"
   ],
   "paths": {
-    "/admin/v1/admin": {
+    "/admin/v1/rbac/role": {
       "post": {
-        "operationId": "UiAdmin_CreateAdmin",
+        "operationId": "RbacRole_CreateRbacRole",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/v1CreateAdminReply"
+              "$ref": "#/definitions/v1CreateRbacRoleReply"
             }
           },
           "default": {
@@ -39,12 +39,12 @@
             "in": "body",
             "required": true,
             "schema": {
-              "$ref": "#/definitions/v1CreateAdminRequest"
+              "$ref": "#/definitions/v1CreateRbacRoleRequest"
             }
           }
         ],
         "tags": [
-          "UiAdmin"
+          "RbacRole"
         ]
       }
     }
@@ -77,7 +77,7 @@
         }
       }
     },
-    "v1CreateAdminReply": {
+    "v1CreateRbacRoleReply": {
       "type": "object",
       "properties": {
         "name": {
@@ -85,7 +85,7 @@
         }
       }
     },
-    "v1CreateAdminRequest": {
+    "v1CreateRbacRoleRequest": {
       "type": "object",
       "properties": {
         "name": {
