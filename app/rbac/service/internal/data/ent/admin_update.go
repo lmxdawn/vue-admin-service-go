@@ -6,6 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
+	"time"
 	"vue-admin/app/rbac/service/internal/data/ent/admin"
 	"vue-admin/app/rbac/service/internal/data/ent/predicate"
 
@@ -24,6 +25,86 @@ type AdminUpdate struct {
 // Where appends a list predicates to the AdminUpdate builder.
 func (au *AdminUpdate) Where(ps ...predicate.Admin) *AdminUpdate {
 	au.mutation.Where(ps...)
+	return au
+}
+
+// SetUsername sets the "username" field.
+func (au *AdminUpdate) SetUsername(s string) *AdminUpdate {
+	au.mutation.SetUsername(s)
+	return au
+}
+
+// SetPassword sets the "password" field.
+func (au *AdminUpdate) SetPassword(s string) *AdminUpdate {
+	au.mutation.SetPassword(s)
+	return au
+}
+
+// SetTel sets the "tel" field.
+func (au *AdminUpdate) SetTel(s string) *AdminUpdate {
+	au.mutation.SetTel(s)
+	return au
+}
+
+// SetEmail sets the "email" field.
+func (au *AdminUpdate) SetEmail(s string) *AdminUpdate {
+	au.mutation.SetEmail(s)
+	return au
+}
+
+// SetAvatar sets the "avatar" field.
+func (au *AdminUpdate) SetAvatar(s string) *AdminUpdate {
+	au.mutation.SetAvatar(s)
+	return au
+}
+
+// SetSex sets the "sex" field.
+func (au *AdminUpdate) SetSex(i int) *AdminUpdate {
+	au.mutation.ResetSex()
+	au.mutation.SetSex(i)
+	return au
+}
+
+// AddSex adds i to the "sex" field.
+func (au *AdminUpdate) AddSex(i int) *AdminUpdate {
+	au.mutation.AddSex(i)
+	return au
+}
+
+// SetLastLoginIP sets the "last_login_ip" field.
+func (au *AdminUpdate) SetLastLoginIP(s string) *AdminUpdate {
+	au.mutation.SetLastLoginIP(s)
+	return au
+}
+
+// SetLastLoginTime sets the "last_login_time" field.
+func (au *AdminUpdate) SetLastLoginTime(t time.Time) *AdminUpdate {
+	au.mutation.SetLastLoginTime(t)
+	return au
+}
+
+// SetStatus sets the "status" field.
+func (au *AdminUpdate) SetStatus(i int) *AdminUpdate {
+	au.mutation.ResetStatus()
+	au.mutation.SetStatus(i)
+	return au
+}
+
+// AddStatus adds i to the "status" field.
+func (au *AdminUpdate) AddStatus(i int) *AdminUpdate {
+	au.mutation.AddStatus(i)
+	return au
+}
+
+// SetCreateTime sets the "create_time" field.
+func (au *AdminUpdate) SetCreateTime(t time.Time) *AdminUpdate {
+	au.mutation.SetCreateTime(t)
+	return au
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (au *AdminUpdate) SetUpdateTime(t time.Time) *AdminUpdate {
+	au.mutation.SetUpdateTime(t)
 	return au
 }
 
@@ -92,7 +173,7 @@ func (au *AdminUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Table:   admin.Table,
 			Columns: admin.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: admin.FieldID,
 			},
 		},
@@ -103,6 +184,97 @@ func (au *AdminUpdate) sqlSave(ctx context.Context) (n int, err error) {
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := au.mutation.Username(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldUsername,
+		})
+	}
+	if value, ok := au.mutation.Password(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldPassword,
+		})
+	}
+	if value, ok := au.mutation.Tel(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldTel,
+		})
+	}
+	if value, ok := au.mutation.Email(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldEmail,
+		})
+	}
+	if value, ok := au.mutation.Avatar(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldAvatar,
+		})
+	}
+	if value, ok := au.mutation.Sex(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldSex,
+		})
+	}
+	if value, ok := au.mutation.AddedSex(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldSex,
+		})
+	}
+	if value, ok := au.mutation.LastLoginIP(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldLastLoginIP,
+		})
+	}
+	if value, ok := au.mutation.LastLoginTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldLastLoginTime,
+		})
+	}
+	if value, ok := au.mutation.Status(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldStatus,
+		})
+	}
+	if value, ok := au.mutation.AddedStatus(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldStatus,
+		})
+	}
+	if value, ok := au.mutation.CreateTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldCreateTime,
+		})
+	}
+	if value, ok := au.mutation.UpdateTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldUpdateTime,
+		})
 	}
 	if n, err = sqlgraph.UpdateNodes(ctx, au.driver, _spec); err != nil {
 		if _, ok := err.(*sqlgraph.NotFoundError); ok {
@@ -121,6 +293,86 @@ type AdminUpdateOne struct {
 	fields   []string
 	hooks    []Hook
 	mutation *AdminMutation
+}
+
+// SetUsername sets the "username" field.
+func (auo *AdminUpdateOne) SetUsername(s string) *AdminUpdateOne {
+	auo.mutation.SetUsername(s)
+	return auo
+}
+
+// SetPassword sets the "password" field.
+func (auo *AdminUpdateOne) SetPassword(s string) *AdminUpdateOne {
+	auo.mutation.SetPassword(s)
+	return auo
+}
+
+// SetTel sets the "tel" field.
+func (auo *AdminUpdateOne) SetTel(s string) *AdminUpdateOne {
+	auo.mutation.SetTel(s)
+	return auo
+}
+
+// SetEmail sets the "email" field.
+func (auo *AdminUpdateOne) SetEmail(s string) *AdminUpdateOne {
+	auo.mutation.SetEmail(s)
+	return auo
+}
+
+// SetAvatar sets the "avatar" field.
+func (auo *AdminUpdateOne) SetAvatar(s string) *AdminUpdateOne {
+	auo.mutation.SetAvatar(s)
+	return auo
+}
+
+// SetSex sets the "sex" field.
+func (auo *AdminUpdateOne) SetSex(i int) *AdminUpdateOne {
+	auo.mutation.ResetSex()
+	auo.mutation.SetSex(i)
+	return auo
+}
+
+// AddSex adds i to the "sex" field.
+func (auo *AdminUpdateOne) AddSex(i int) *AdminUpdateOne {
+	auo.mutation.AddSex(i)
+	return auo
+}
+
+// SetLastLoginIP sets the "last_login_ip" field.
+func (auo *AdminUpdateOne) SetLastLoginIP(s string) *AdminUpdateOne {
+	auo.mutation.SetLastLoginIP(s)
+	return auo
+}
+
+// SetLastLoginTime sets the "last_login_time" field.
+func (auo *AdminUpdateOne) SetLastLoginTime(t time.Time) *AdminUpdateOne {
+	auo.mutation.SetLastLoginTime(t)
+	return auo
+}
+
+// SetStatus sets the "status" field.
+func (auo *AdminUpdateOne) SetStatus(i int) *AdminUpdateOne {
+	auo.mutation.ResetStatus()
+	auo.mutation.SetStatus(i)
+	return auo
+}
+
+// AddStatus adds i to the "status" field.
+func (auo *AdminUpdateOne) AddStatus(i int) *AdminUpdateOne {
+	auo.mutation.AddStatus(i)
+	return auo
+}
+
+// SetCreateTime sets the "create_time" field.
+func (auo *AdminUpdateOne) SetCreateTime(t time.Time) *AdminUpdateOne {
+	auo.mutation.SetCreateTime(t)
+	return auo
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (auo *AdminUpdateOne) SetUpdateTime(t time.Time) *AdminUpdateOne {
+	auo.mutation.SetUpdateTime(t)
+	return auo
 }
 
 // Mutation returns the AdminMutation object of the builder.
@@ -201,7 +453,7 @@ func (auo *AdminUpdateOne) sqlSave(ctx context.Context) (_node *Admin, err error
 			Table:   admin.Table,
 			Columns: admin.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: admin.FieldID,
 			},
 		},
@@ -229,6 +481,97 @@ func (auo *AdminUpdateOne) sqlSave(ctx context.Context) (_node *Admin, err error
 				ps[i](selector)
 			}
 		}
+	}
+	if value, ok := auo.mutation.Username(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldUsername,
+		})
+	}
+	if value, ok := auo.mutation.Password(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldPassword,
+		})
+	}
+	if value, ok := auo.mutation.Tel(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldTel,
+		})
+	}
+	if value, ok := auo.mutation.Email(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldEmail,
+		})
+	}
+	if value, ok := auo.mutation.Avatar(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldAvatar,
+		})
+	}
+	if value, ok := auo.mutation.Sex(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldSex,
+		})
+	}
+	if value, ok := auo.mutation.AddedSex(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldSex,
+		})
+	}
+	if value, ok := auo.mutation.LastLoginIP(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldLastLoginIP,
+		})
+	}
+	if value, ok := auo.mutation.LastLoginTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldLastLoginTime,
+		})
+	}
+	if value, ok := auo.mutation.Status(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldStatus,
+		})
+	}
+	if value, ok := auo.mutation.AddedStatus(); ok {
+		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldStatus,
+		})
+	}
+	if value, ok := auo.mutation.CreateTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldCreateTime,
+		})
+	}
+	if value, ok := auo.mutation.UpdateTime(); ok {
+		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldUpdateTime,
+		})
 	}
 	_node = &Admin{config: auo.config}
 	_spec.Assign = _node.assignValues

@@ -5,6 +5,7 @@ package ent
 import (
 	"fmt"
 	"strings"
+	"time"
 	"vue-admin/app/rbac/service/internal/data/ent/admin"
 
 	"entgo.io/ent/dialect/sql"
@@ -12,9 +13,31 @@ import (
 
 // Admin is the model entity for the Admin schema.
 type Admin struct {
-	config
+	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
+	// Username holds the value of the "username" field.
+	Username string `json:"username,omitempty"`
+	// Password holds the value of the "password" field.
+	Password string `json:"password,omitempty"`
+	// Tel holds the value of the "tel" field.
+	Tel string `json:"tel,omitempty"`
+	// Email holds the value of the "email" field.
+	Email string `json:"email,omitempty"`
+	// Avatar holds the value of the "avatar" field.
+	Avatar string `json:"avatar,omitempty"`
+	// Sex holds the value of the "sex" field.
+	Sex int `json:"sex,omitempty"`
+	// LastLoginIP holds the value of the "last_login_ip" field.
+	LastLoginIP string `json:"last_login_ip,omitempty"`
+	// LastLoginTime holds the value of the "last_login_time" field.
+	LastLoginTime time.Time `json:"last_login_time,omitempty"`
+	// Status holds the value of the "status" field.
+	Status int `json:"status,omitempty"`
+	// CreateTime holds the value of the "create_time" field.
+	CreateTime time.Time `json:"create_time,omitempty"`
+	// UpdateTime holds the value of the "update_time" field.
+	UpdateTime time.Time `json:"update_time,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -22,8 +45,12 @@ func (*Admin) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case admin.FieldID:
+		case admin.FieldID, admin.FieldSex, admin.FieldStatus:
 			values[i] = new(sql.NullInt64)
+		case admin.FieldUsername, admin.FieldPassword, admin.FieldTel, admin.FieldEmail, admin.FieldAvatar, admin.FieldLastLoginIP:
+			values[i] = new(sql.NullString)
+		case admin.FieldLastLoginTime, admin.FieldCreateTime, admin.FieldUpdateTime:
+			values[i] = new(sql.NullTime)
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Admin", columns[i])
 		}
@@ -44,7 +71,73 @@ func (a *Admin) assignValues(columns []string, values []interface{}) error {
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			a.ID = int(value.Int64)
+			a.ID = int64(value.Int64)
+		case admin.FieldUsername:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field username", values[i])
+			} else if value.Valid {
+				a.Username = value.String
+			}
+		case admin.FieldPassword:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field password", values[i])
+			} else if value.Valid {
+				a.Password = value.String
+			}
+		case admin.FieldTel:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field tel", values[i])
+			} else if value.Valid {
+				a.Tel = value.String
+			}
+		case admin.FieldEmail:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field email", values[i])
+			} else if value.Valid {
+				a.Email = value.String
+			}
+		case admin.FieldAvatar:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field avatar", values[i])
+			} else if value.Valid {
+				a.Avatar = value.String
+			}
+		case admin.FieldSex:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field sex", values[i])
+			} else if value.Valid {
+				a.Sex = int(value.Int64)
+			}
+		case admin.FieldLastLoginIP:
+			if value, ok := values[i].(*sql.NullString); !ok {
+				return fmt.Errorf("unexpected type %T for field last_login_ip", values[i])
+			} else if value.Valid {
+				a.LastLoginIP = value.String
+			}
+		case admin.FieldLastLoginTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field last_login_time", values[i])
+			} else if value.Valid {
+				a.LastLoginTime = value.Time
+			}
+		case admin.FieldStatus:
+			if value, ok := values[i].(*sql.NullInt64); !ok {
+				return fmt.Errorf("unexpected type %T for field status", values[i])
+			} else if value.Valid {
+				a.Status = int(value.Int64)
+			}
+		case admin.FieldCreateTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field create_time", values[i])
+			} else if value.Valid {
+				a.CreateTime = value.Time
+			}
+		case admin.FieldUpdateTime:
+			if value, ok := values[i].(*sql.NullTime); !ok {
+				return fmt.Errorf("unexpected type %T for field update_time", values[i])
+			} else if value.Valid {
+				a.UpdateTime = value.Time
+			}
 		}
 	}
 	return nil
@@ -72,7 +165,39 @@ func (a *Admin) Unwrap() *Admin {
 func (a *Admin) String() string {
 	var builder strings.Builder
 	builder.WriteString("Admin(")
-	builder.WriteString(fmt.Sprintf("id=%v", a.ID))
+	builder.WriteString(fmt.Sprintf("id=%v, ", a.ID))
+	builder.WriteString("username=")
+	builder.WriteString(a.Username)
+	builder.WriteString(", ")
+	builder.WriteString("password=")
+	builder.WriteString(a.Password)
+	builder.WriteString(", ")
+	builder.WriteString("tel=")
+	builder.WriteString(a.Tel)
+	builder.WriteString(", ")
+	builder.WriteString("email=")
+	builder.WriteString(a.Email)
+	builder.WriteString(", ")
+	builder.WriteString("avatar=")
+	builder.WriteString(a.Avatar)
+	builder.WriteString(", ")
+	builder.WriteString("sex=")
+	builder.WriteString(fmt.Sprintf("%v", a.Sex))
+	builder.WriteString(", ")
+	builder.WriteString("last_login_ip=")
+	builder.WriteString(a.LastLoginIP)
+	builder.WriteString(", ")
+	builder.WriteString("last_login_time=")
+	builder.WriteString(a.LastLoginTime.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("status=")
+	builder.WriteString(fmt.Sprintf("%v", a.Status))
+	builder.WriteString(", ")
+	builder.WriteString("create_time=")
+	builder.WriteString(a.CreateTime.Format(time.ANSIC))
+	builder.WriteString(", ")
+	builder.WriteString("update_time=")
+	builder.WriteString(a.UpdateTime.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }

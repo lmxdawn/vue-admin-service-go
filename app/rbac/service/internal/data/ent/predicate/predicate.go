@@ -8,3 +8,15 @@ import (
 
 // Admin is the predicate function for admin builders.
 type Admin func(*sql.Selector)
+
+// Permission is the predicate function for permission builders.
+type Permission func(*sql.Selector)
+
+// PermissionRule is the predicate function for permissionrule builders.
+type PermissionRule func(*sql.Selector)
+
+// Role is the predicate function for role builders.
+type Role func(*sql.Selector)
+
+// RoleAdmin is the predicate function for roleadmin builders.
+type RoleAdmin func(*sql.Selector)

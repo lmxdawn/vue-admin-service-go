@@ -7,6 +7,10 @@ import (
 	"errors"
 	"fmt"
 	"vue-admin/app/rbac/service/internal/data/ent/admin"
+	"vue-admin/app/rbac/service/internal/data/ent/permission"
+	"vue-admin/app/rbac/service/internal/data/ent/permissionrule"
+	"vue-admin/app/rbac/service/internal/data/ent/role"
+	"vue-admin/app/rbac/service/internal/data/ent/roleadmin"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -31,7 +35,11 @@ type OrderFunc func(*sql.Selector)
 // columnChecker returns a function indicates if the column exists in the given column.
 func columnChecker(table string) func(string) error {
 	checks := map[string]func(string) bool{
-		admin.Table: admin.ValidColumn,
+		admin.Table:          admin.ValidColumn,
+		permission.Table:     permission.ValidColumn,
+		permissionrule.Table: permissionrule.ValidColumn,
+		role.Table:           role.ValidColumn,
+		roleadmin.Table:      roleadmin.ValidColumn,
 	}
 	check, ok := checks[table]
 	if !ok {

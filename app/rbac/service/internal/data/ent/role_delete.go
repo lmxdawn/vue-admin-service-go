@@ -5,53 +5,53 @@ package ent
 import (
 	"context"
 	"fmt"
-	"vue-admin/app/rbac/service/internal/data/ent/admin"
 	"vue-admin/app/rbac/service/internal/data/ent/predicate"
+	"vue-admin/app/rbac/service/internal/data/ent/role"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 )
 
-// AdminDelete is the builder for deleting a Admin entity.
-type AdminDelete struct {
+// RoleDelete is the builder for deleting a Role entity.
+type RoleDelete struct {
 	config
 	hooks    []Hook
-	mutation *AdminMutation
+	mutation *RoleMutation
 }
 
-// Where appends a list predicates to the AdminDelete builder.
-func (ad *AdminDelete) Where(ps ...predicate.Admin) *AdminDelete {
-	ad.mutation.Where(ps...)
-	return ad
+// Where appends a list predicates to the RoleDelete builder.
+func (rd *RoleDelete) Where(ps ...predicate.Role) *RoleDelete {
+	rd.mutation.Where(ps...)
+	return rd
 }
 
 // Exec executes the deletion query and returns how many vertices were deleted.
-func (ad *AdminDelete) Exec(ctx context.Context) (int, error) {
+func (rd *RoleDelete) Exec(ctx context.Context) (int, error) {
 	var (
 		err      error
 		affected int
 	)
-	if len(ad.hooks) == 0 {
-		affected, err = ad.sqlExec(ctx)
+	if len(rd.hooks) == 0 {
+		affected, err = rd.sqlExec(ctx)
 	} else {
 		var mut Mutator = MutateFunc(func(ctx context.Context, m Mutation) (Value, error) {
-			mutation, ok := m.(*AdminMutation)
+			mutation, ok := m.(*RoleMutation)
 			if !ok {
 				return nil, fmt.Errorf("unexpected mutation type %T", m)
 			}
-			ad.mutation = mutation
-			affected, err = ad.sqlExec(ctx)
+			rd.mutation = mutation
+			affected, err = rd.sqlExec(ctx)
 			mutation.done = true
 			return affected, err
 		})
-		for i := len(ad.hooks) - 1; i >= 0; i-- {
-			if ad.hooks[i] == nil {
+		for i := len(rd.hooks) - 1; i >= 0; i-- {
+			if rd.hooks[i] == nil {
 				return 0, fmt.Errorf("ent: uninitialized hook (forgotten import ent/runtime?)")
 			}
-			mut = ad.hooks[i](mut)
+			mut = rd.hooks[i](mut)
 		}
-		if _, err := mut.Mutate(ctx, ad.mutation); err != nil {
+		if _, err := mut.Mutate(ctx, rd.mutation); err != nil {
 			return 0, err
 		}
 	}
@@ -59,57 +59,57 @@ func (ad *AdminDelete) Exec(ctx context.Context) (int, error) {
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ad *AdminDelete) ExecX(ctx context.Context) int {
-	n, err := ad.Exec(ctx)
+func (rd *RoleDelete) ExecX(ctx context.Context) int {
+	n, err := rd.Exec(ctx)
 	if err != nil {
 		panic(err)
 	}
 	return n
 }
 
-func (ad *AdminDelete) sqlExec(ctx context.Context) (int, error) {
+func (rd *RoleDelete) sqlExec(ctx context.Context) (int, error) {
 	_spec := &sqlgraph.DeleteSpec{
 		Node: &sqlgraph.NodeSpec{
-			Table: admin.Table,
+			Table: role.Table,
 			ID: &sqlgraph.FieldSpec{
 				Type:   field.TypeInt64,
-				Column: admin.FieldID,
+				Column: role.FieldID,
 			},
 		},
 	}
-	if ps := ad.mutation.predicates; len(ps) > 0 {
+	if ps := rd.mutation.predicates; len(ps) > 0 {
 		_spec.Predicate = func(selector *sql.Selector) {
 			for i := range ps {
 				ps[i](selector)
 			}
 		}
 	}
-	affected, err := sqlgraph.DeleteNodes(ctx, ad.driver, _spec)
+	affected, err := sqlgraph.DeleteNodes(ctx, rd.driver, _spec)
 	if err != nil && sqlgraph.IsConstraintError(err) {
 		err = &ConstraintError{msg: err.Error(), wrap: err}
 	}
 	return affected, err
 }
 
-// AdminDeleteOne is the builder for deleting a single Admin entity.
-type AdminDeleteOne struct {
-	ad *AdminDelete
+// RoleDeleteOne is the builder for deleting a single Role entity.
+type RoleDeleteOne struct {
+	rd *RoleDelete
 }
 
 // Exec executes the deletion query.
-func (ado *AdminDeleteOne) Exec(ctx context.Context) error {
-	n, err := ado.ad.Exec(ctx)
+func (rdo *RoleDeleteOne) Exec(ctx context.Context) error {
+	n, err := rdo.rd.Exec(ctx)
 	switch {
 	case err != nil:
 		return err
 	case n == 0:
-		return &NotFoundError{admin.Label}
+		return &NotFoundError{role.Label}
 	default:
 		return nil
 	}
 }
 
 // ExecX is like Exec, but panics if an error occurs.
-func (ado *AdminDeleteOne) ExecX(ctx context.Context) {
-	ado.ad.ExecX(ctx)
+func (rdo *RoleDeleteOne) ExecX(ctx context.Context) {
+	rdo.rd.ExecX(ctx)
 }

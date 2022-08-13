@@ -3,34 +3,35 @@
 package admin
 
 import (
+	"time"
 	"vue-admin/app/rbac/service/internal/data/ent/predicate"
 
 	"entgo.io/ent/dialect/sql"
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.Admin {
+func ID(id int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldID), id))
 	})
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.Admin {
+func IDEQ(id int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldID), id))
 	})
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.Admin {
+func IDNEQ(id int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldID), id))
 	})
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.Admin {
+func IDIn(ids ...int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		v := make([]interface{}, len(ids))
 		for i := range v {
@@ -41,7 +42,7 @@ func IDIn(ids ...int) predicate.Admin {
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.Admin {
+func IDNotIn(ids ...int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		v := make([]interface{}, len(ids))
 		for i := range v {
@@ -52,30 +53,1021 @@ func IDNotIn(ids ...int) predicate.Admin {
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.Admin {
+func IDGT(id int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldID), id))
 	})
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.Admin {
+func IDGTE(id int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldID), id))
 	})
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.Admin {
+func IDLT(id int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldID), id))
 	})
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.Admin {
+func IDLTE(id int64) predicate.Admin {
 	return predicate.Admin(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldID), id))
+	})
+}
+
+// Username applies equality check predicate on the "username" field. It's identical to UsernameEQ.
+func Username(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUsername), v))
+	})
+}
+
+// Password applies equality check predicate on the "password" field. It's identical to PasswordEQ.
+func Password(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPassword), v))
+	})
+}
+
+// Tel applies equality check predicate on the "tel" field. It's identical to TelEQ.
+func Tel(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTel), v))
+	})
+}
+
+// Email applies equality check predicate on the "email" field. It's identical to EmailEQ.
+func Email(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEmail), v))
+	})
+}
+
+// Avatar applies equality check predicate on the "avatar" field. It's identical to AvatarEQ.
+func Avatar(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAvatar), v))
+	})
+}
+
+// Sex applies equality check predicate on the "sex" field. It's identical to SexEQ.
+func Sex(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldSex), v))
+	})
+}
+
+// LastLoginIP applies equality check predicate on the "last_login_ip" field. It's identical to LastLoginIPEQ.
+func LastLoginIP(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginTime applies equality check predicate on the "last_login_time" field. It's identical to LastLoginTimeEQ.
+func LastLoginTime(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLastLoginTime), v))
+	})
+}
+
+// Status applies equality check predicate on the "status" field. It's identical to StatusEQ.
+func Status(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldStatus), v))
+	})
+}
+
+// CreateTime applies equality check predicate on the "create_time" field. It's identical to CreateTimeEQ.
+func CreateTime(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCreateTime), v))
+	})
+}
+
+// UpdateTime applies equality check predicate on the "update_time" field. It's identical to UpdateTimeEQ.
+func UpdateTime(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUpdateTime), v))
+	})
+}
+
+// UsernameEQ applies the EQ predicate on the "username" field.
+func UsernameEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameNEQ applies the NEQ predicate on the "username" field.
+func UsernameNEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameIn applies the In predicate on the "username" field.
+func UsernameIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldUsername), v...))
+	})
+}
+
+// UsernameNotIn applies the NotIn predicate on the "username" field.
+func UsernameNotIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldUsername), v...))
+	})
+}
+
+// UsernameGT applies the GT predicate on the "username" field.
+func UsernameGT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameGTE applies the GTE predicate on the "username" field.
+func UsernameGTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameLT applies the LT predicate on the "username" field.
+func UsernameLT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameLTE applies the LTE predicate on the "username" field.
+func UsernameLTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameContains applies the Contains predicate on the "username" field.
+func UsernameContains(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameHasPrefix applies the HasPrefix predicate on the "username" field.
+func UsernameHasPrefix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameHasSuffix applies the HasSuffix predicate on the "username" field.
+func UsernameHasSuffix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameEqualFold applies the EqualFold predicate on the "username" field.
+func UsernameEqualFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldUsername), v))
+	})
+}
+
+// UsernameContainsFold applies the ContainsFold predicate on the "username" field.
+func UsernameContainsFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldUsername), v))
+	})
+}
+
+// PasswordEQ applies the EQ predicate on the "password" field.
+func PasswordEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordNEQ applies the NEQ predicate on the "password" field.
+func PasswordNEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordIn applies the In predicate on the "password" field.
+func PasswordIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldPassword), v...))
+	})
+}
+
+// PasswordNotIn applies the NotIn predicate on the "password" field.
+func PasswordNotIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldPassword), v...))
+	})
+}
+
+// PasswordGT applies the GT predicate on the "password" field.
+func PasswordGT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordGTE applies the GTE predicate on the "password" field.
+func PasswordGTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordLT applies the LT predicate on the "password" field.
+func PasswordLT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordLTE applies the LTE predicate on the "password" field.
+func PasswordLTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordContains applies the Contains predicate on the "password" field.
+func PasswordContains(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordHasPrefix applies the HasPrefix predicate on the "password" field.
+func PasswordHasPrefix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordHasSuffix applies the HasSuffix predicate on the "password" field.
+func PasswordHasSuffix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordEqualFold applies the EqualFold predicate on the "password" field.
+func PasswordEqualFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldPassword), v))
+	})
+}
+
+// PasswordContainsFold applies the ContainsFold predicate on the "password" field.
+func PasswordContainsFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldPassword), v))
+	})
+}
+
+// TelEQ applies the EQ predicate on the "tel" field.
+func TelEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldTel), v))
+	})
+}
+
+// TelNEQ applies the NEQ predicate on the "tel" field.
+func TelNEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldTel), v))
+	})
+}
+
+// TelIn applies the In predicate on the "tel" field.
+func TelIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldTel), v...))
+	})
+}
+
+// TelNotIn applies the NotIn predicate on the "tel" field.
+func TelNotIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldTel), v...))
+	})
+}
+
+// TelGT applies the GT predicate on the "tel" field.
+func TelGT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldTel), v))
+	})
+}
+
+// TelGTE applies the GTE predicate on the "tel" field.
+func TelGTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldTel), v))
+	})
+}
+
+// TelLT applies the LT predicate on the "tel" field.
+func TelLT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldTel), v))
+	})
+}
+
+// TelLTE applies the LTE predicate on the "tel" field.
+func TelLTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldTel), v))
+	})
+}
+
+// TelContains applies the Contains predicate on the "tel" field.
+func TelContains(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldTel), v))
+	})
+}
+
+// TelHasPrefix applies the HasPrefix predicate on the "tel" field.
+func TelHasPrefix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldTel), v))
+	})
+}
+
+// TelHasSuffix applies the HasSuffix predicate on the "tel" field.
+func TelHasSuffix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldTel), v))
+	})
+}
+
+// TelEqualFold applies the EqualFold predicate on the "tel" field.
+func TelEqualFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldTel), v))
+	})
+}
+
+// TelContainsFold applies the ContainsFold predicate on the "tel" field.
+func TelContainsFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldTel), v))
+	})
+}
+
+// EmailEQ applies the EQ predicate on the "email" field.
+func EmailEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldEmail), v))
+	})
+}
+
+// EmailNEQ applies the NEQ predicate on the "email" field.
+func EmailNEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldEmail), v))
+	})
+}
+
+// EmailIn applies the In predicate on the "email" field.
+func EmailIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldEmail), v...))
+	})
+}
+
+// EmailNotIn applies the NotIn predicate on the "email" field.
+func EmailNotIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldEmail), v...))
+	})
+}
+
+// EmailGT applies the GT predicate on the "email" field.
+func EmailGT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldEmail), v))
+	})
+}
+
+// EmailGTE applies the GTE predicate on the "email" field.
+func EmailGTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldEmail), v))
+	})
+}
+
+// EmailLT applies the LT predicate on the "email" field.
+func EmailLT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldEmail), v))
+	})
+}
+
+// EmailLTE applies the LTE predicate on the "email" field.
+func EmailLTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldEmail), v))
+	})
+}
+
+// EmailContains applies the Contains predicate on the "email" field.
+func EmailContains(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldEmail), v))
+	})
+}
+
+// EmailHasPrefix applies the HasPrefix predicate on the "email" field.
+func EmailHasPrefix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldEmail), v))
+	})
+}
+
+// EmailHasSuffix applies the HasSuffix predicate on the "email" field.
+func EmailHasSuffix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldEmail), v))
+	})
+}
+
+// EmailEqualFold applies the EqualFold predicate on the "email" field.
+func EmailEqualFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldEmail), v))
+	})
+}
+
+// EmailContainsFold applies the ContainsFold predicate on the "email" field.
+func EmailContainsFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldEmail), v))
+	})
+}
+
+// AvatarEQ applies the EQ predicate on the "avatar" field.
+func AvatarEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarNEQ applies the NEQ predicate on the "avatar" field.
+func AvatarNEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarIn applies the In predicate on the "avatar" field.
+func AvatarIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldAvatar), v...))
+	})
+}
+
+// AvatarNotIn applies the NotIn predicate on the "avatar" field.
+func AvatarNotIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldAvatar), v...))
+	})
+}
+
+// AvatarGT applies the GT predicate on the "avatar" field.
+func AvatarGT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarGTE applies the GTE predicate on the "avatar" field.
+func AvatarGTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarLT applies the LT predicate on the "avatar" field.
+func AvatarLT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarLTE applies the LTE predicate on the "avatar" field.
+func AvatarLTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarContains applies the Contains predicate on the "avatar" field.
+func AvatarContains(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarHasPrefix applies the HasPrefix predicate on the "avatar" field.
+func AvatarHasPrefix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarHasSuffix applies the HasSuffix predicate on the "avatar" field.
+func AvatarHasSuffix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarEqualFold applies the EqualFold predicate on the "avatar" field.
+func AvatarEqualFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldAvatar), v))
+	})
+}
+
+// AvatarContainsFold applies the ContainsFold predicate on the "avatar" field.
+func AvatarContainsFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldAvatar), v))
+	})
+}
+
+// SexEQ applies the EQ predicate on the "sex" field.
+func SexEQ(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldSex), v))
+	})
+}
+
+// SexNEQ applies the NEQ predicate on the "sex" field.
+func SexNEQ(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldSex), v))
+	})
+}
+
+// SexIn applies the In predicate on the "sex" field.
+func SexIn(vs ...int) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldSex), v...))
+	})
+}
+
+// SexNotIn applies the NotIn predicate on the "sex" field.
+func SexNotIn(vs ...int) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldSex), v...))
+	})
+}
+
+// SexGT applies the GT predicate on the "sex" field.
+func SexGT(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldSex), v))
+	})
+}
+
+// SexGTE applies the GTE predicate on the "sex" field.
+func SexGTE(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldSex), v))
+	})
+}
+
+// SexLT applies the LT predicate on the "sex" field.
+func SexLT(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldSex), v))
+	})
+}
+
+// SexLTE applies the LTE predicate on the "sex" field.
+func SexLTE(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldSex), v))
+	})
+}
+
+// LastLoginIPEQ applies the EQ predicate on the "last_login_ip" field.
+func LastLoginIPEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPNEQ applies the NEQ predicate on the "last_login_ip" field.
+func LastLoginIPNEQ(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPIn applies the In predicate on the "last_login_ip" field.
+func LastLoginIPIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldLastLoginIP), v...))
+	})
+}
+
+// LastLoginIPNotIn applies the NotIn predicate on the "last_login_ip" field.
+func LastLoginIPNotIn(vs ...string) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldLastLoginIP), v...))
+	})
+}
+
+// LastLoginIPGT applies the GT predicate on the "last_login_ip" field.
+func LastLoginIPGT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPGTE applies the GTE predicate on the "last_login_ip" field.
+func LastLoginIPGTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPLT applies the LT predicate on the "last_login_ip" field.
+func LastLoginIPLT(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPLTE applies the LTE predicate on the "last_login_ip" field.
+func LastLoginIPLTE(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPContains applies the Contains predicate on the "last_login_ip" field.
+func LastLoginIPContains(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.Contains(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPHasPrefix applies the HasPrefix predicate on the "last_login_ip" field.
+func LastLoginIPHasPrefix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasPrefix(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPHasSuffix applies the HasSuffix predicate on the "last_login_ip" field.
+func LastLoginIPHasSuffix(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.HasSuffix(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPEqualFold applies the EqualFold predicate on the "last_login_ip" field.
+func LastLoginIPEqualFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EqualFold(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginIPContainsFold applies the ContainsFold predicate on the "last_login_ip" field.
+func LastLoginIPContainsFold(v string) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.ContainsFold(s.C(FieldLastLoginIP), v))
+	})
+}
+
+// LastLoginTimeEQ applies the EQ predicate on the "last_login_time" field.
+func LastLoginTimeEQ(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldLastLoginTime), v))
+	})
+}
+
+// LastLoginTimeNEQ applies the NEQ predicate on the "last_login_time" field.
+func LastLoginTimeNEQ(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldLastLoginTime), v))
+	})
+}
+
+// LastLoginTimeIn applies the In predicate on the "last_login_time" field.
+func LastLoginTimeIn(vs ...time.Time) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldLastLoginTime), v...))
+	})
+}
+
+// LastLoginTimeNotIn applies the NotIn predicate on the "last_login_time" field.
+func LastLoginTimeNotIn(vs ...time.Time) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldLastLoginTime), v...))
+	})
+}
+
+// LastLoginTimeGT applies the GT predicate on the "last_login_time" field.
+func LastLoginTimeGT(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldLastLoginTime), v))
+	})
+}
+
+// LastLoginTimeGTE applies the GTE predicate on the "last_login_time" field.
+func LastLoginTimeGTE(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldLastLoginTime), v))
+	})
+}
+
+// LastLoginTimeLT applies the LT predicate on the "last_login_time" field.
+func LastLoginTimeLT(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldLastLoginTime), v))
+	})
+}
+
+// LastLoginTimeLTE applies the LTE predicate on the "last_login_time" field.
+func LastLoginTimeLTE(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldLastLoginTime), v))
+	})
+}
+
+// StatusEQ applies the EQ predicate on the "status" field.
+func StatusEQ(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldStatus), v))
+	})
+}
+
+// StatusNEQ applies the NEQ predicate on the "status" field.
+func StatusNEQ(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldStatus), v))
+	})
+}
+
+// StatusIn applies the In predicate on the "status" field.
+func StatusIn(vs ...int) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldStatus), v...))
+	})
+}
+
+// StatusNotIn applies the NotIn predicate on the "status" field.
+func StatusNotIn(vs ...int) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldStatus), v...))
+	})
+}
+
+// StatusGT applies the GT predicate on the "status" field.
+func StatusGT(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldStatus), v))
+	})
+}
+
+// StatusGTE applies the GTE predicate on the "status" field.
+func StatusGTE(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldStatus), v))
+	})
+}
+
+// StatusLT applies the LT predicate on the "status" field.
+func StatusLT(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldStatus), v))
+	})
+}
+
+// StatusLTE applies the LTE predicate on the "status" field.
+func StatusLTE(v int) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldStatus), v))
+	})
+}
+
+// CreateTimeEQ applies the EQ predicate on the "create_time" field.
+func CreateTimeEQ(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldCreateTime), v))
+	})
+}
+
+// CreateTimeNEQ applies the NEQ predicate on the "create_time" field.
+func CreateTimeNEQ(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldCreateTime), v))
+	})
+}
+
+// CreateTimeIn applies the In predicate on the "create_time" field.
+func CreateTimeIn(vs ...time.Time) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldCreateTime), v...))
+	})
+}
+
+// CreateTimeNotIn applies the NotIn predicate on the "create_time" field.
+func CreateTimeNotIn(vs ...time.Time) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldCreateTime), v...))
+	})
+}
+
+// CreateTimeGT applies the GT predicate on the "create_time" field.
+func CreateTimeGT(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldCreateTime), v))
+	})
+}
+
+// CreateTimeGTE applies the GTE predicate on the "create_time" field.
+func CreateTimeGTE(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldCreateTime), v))
+	})
+}
+
+// CreateTimeLT applies the LT predicate on the "create_time" field.
+func CreateTimeLT(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldCreateTime), v))
+	})
+}
+
+// CreateTimeLTE applies the LTE predicate on the "create_time" field.
+func CreateTimeLTE(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldCreateTime), v))
+	})
+}
+
+// UpdateTimeEQ applies the EQ predicate on the "update_time" field.
+func UpdateTimeEQ(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.EQ(s.C(FieldUpdateTime), v))
+	})
+}
+
+// UpdateTimeNEQ applies the NEQ predicate on the "update_time" field.
+func UpdateTimeNEQ(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NEQ(s.C(FieldUpdateTime), v))
+	})
+}
+
+// UpdateTimeIn applies the In predicate on the "update_time" field.
+func UpdateTimeIn(vs ...time.Time) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.In(s.C(FieldUpdateTime), v...))
+	})
+}
+
+// UpdateTimeNotIn applies the NotIn predicate on the "update_time" field.
+func UpdateTimeNotIn(vs ...time.Time) predicate.Admin {
+	v := make([]interface{}, len(vs))
+	for i := range v {
+		v[i] = vs[i]
+	}
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.NotIn(s.C(FieldUpdateTime), v...))
+	})
+}
+
+// UpdateTimeGT applies the GT predicate on the "update_time" field.
+func UpdateTimeGT(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GT(s.C(FieldUpdateTime), v))
+	})
+}
+
+// UpdateTimeGTE applies the GTE predicate on the "update_time" field.
+func UpdateTimeGTE(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.GTE(s.C(FieldUpdateTime), v))
+	})
+}
+
+// UpdateTimeLT applies the LT predicate on the "update_time" field.
+func UpdateTimeLT(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LT(s.C(FieldUpdateTime), v))
+	})
+}
+
+// UpdateTimeLTE applies the LTE predicate on the "update_time" field.
+func UpdateTimeLTE(v time.Time) predicate.Admin {
+	return predicate.Admin(func(s *sql.Selector) {
+		s.Where(sql.LTE(s.C(FieldUpdateTime), v))
 	})
 }
 

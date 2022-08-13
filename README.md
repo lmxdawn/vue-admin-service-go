@@ -23,6 +23,8 @@ kratos proto add api/server/server.proto
 
 kratos proto add api/rbac/service/v1/rbac_role.proto
 
+
+
 go generate ./...
 go build -o ./bin/ ./...
 ./bin/server -conf ./configs

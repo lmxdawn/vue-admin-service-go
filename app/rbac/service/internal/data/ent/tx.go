@@ -14,6 +14,14 @@ type Tx struct {
 	config
 	// Admin is the client for interacting with the Admin builders.
 	Admin *AdminClient
+	// Permission is the client for interacting with the Permission builders.
+	Permission *PermissionClient
+	// PermissionRule is the client for interacting with the PermissionRule builders.
+	PermissionRule *PermissionRuleClient
+	// Role is the client for interacting with the Role builders.
+	Role *RoleClient
+	// RoleAdmin is the client for interacting with the RoleAdmin builders.
+	RoleAdmin *RoleAdminClient
 
 	// lazily loaded.
 	client     *Client
@@ -150,6 +158,10 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Admin = NewAdminClient(tx.config)
+	tx.Permission = NewPermissionClient(tx.config)
+	tx.PermissionRule = NewPermissionRuleClient(tx.config)
+	tx.Role = NewRoleClient(tx.config)
+	tx.RoleAdmin = NewRoleAdminClient(tx.config)
 }
 
 // txDriver wraps the given dialect.Tx with a nop dialect.Driver implementation.

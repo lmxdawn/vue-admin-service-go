@@ -11,6 +11,10 @@ import (
 	"vue-admin/app/rbac/service/internal/data/ent/migrate"
 
 	"vue-admin/app/rbac/service/internal/data/ent/admin"
+	"vue-admin/app/rbac/service/internal/data/ent/permission"
+	"vue-admin/app/rbac/service/internal/data/ent/permissionrule"
+	"vue-admin/app/rbac/service/internal/data/ent/role"
+	"vue-admin/app/rbac/service/internal/data/ent/roleadmin"
 
 	"entgo.io/ent/dialect"
 	"entgo.io/ent/dialect/sql"
@@ -23,6 +27,14 @@ type Client struct {
 	Schema *migrate.Schema
 	// Admin is the client for interacting with the Admin builders.
 	Admin *AdminClient
+	// Permission is the client for interacting with the Permission builders.
+	Permission *PermissionClient
+	// PermissionRule is the client for interacting with the PermissionRule builders.
+	PermissionRule *PermissionRuleClient
+	// Role is the client for interacting with the Role builders.
+	Role *RoleClient
+	// RoleAdmin is the client for interacting with the RoleAdmin builders.
+	RoleAdmin *RoleAdminClient
 }
 
 // NewClient creates a new client configured with the given options.
@@ -37,6 +49,10 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Admin = NewAdminClient(c.config)
+	c.Permission = NewPermissionClient(c.config)
+	c.PermissionRule = NewPermissionRuleClient(c.config)
+	c.Role = NewRoleClient(c.config)
+	c.RoleAdmin = NewRoleAdminClient(c.config)
 }
 
 // Open opens a database/sql.DB specified by the driver name and
@@ -68,9 +84,13 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Admin:  NewAdminClient(cfg),
+		ctx:            ctx,
+		config:         cfg,
+		Admin:          NewAdminClient(cfg),
+		Permission:     NewPermissionClient(cfg),
+		PermissionRule: NewPermissionRuleClient(cfg),
+		Role:           NewRoleClient(cfg),
+		RoleAdmin:      NewRoleAdminClient(cfg),
 	}, nil
 }
 
@@ -88,9 +108,13 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		ctx:    ctx,
-		config: cfg,
-		Admin:  NewAdminClient(cfg),
+		ctx:            ctx,
+		config:         cfg,
+		Admin:          NewAdminClient(cfg),
+		Permission:     NewPermissionClient(cfg),
+		PermissionRule: NewPermissionRuleClient(cfg),
+		Role:           NewRoleClient(cfg),
+		RoleAdmin:      NewRoleAdminClient(cfg),
 	}, nil
 }
 
@@ -121,6 +145,10 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	c.Admin.Use(hooks...)
+	c.Permission.Use(hooks...)
+	c.PermissionRule.Use(hooks...)
+	c.Role.Use(hooks...)
+	c.RoleAdmin.Use(hooks...)
 }
 
 // AdminClient is a client for the Admin schema.
@@ -163,7 +191,7 @@ func (c *AdminClient) UpdateOne(a *Admin) *AdminUpdateOne {
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *AdminClient) UpdateOneID(id int) *AdminUpdateOne {
+func (c *AdminClient) UpdateOneID(id int64) *AdminUpdateOne {
 	mutation := newAdminMutation(c.config, OpUpdateOne, withAdminID(id))
 	return &AdminUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
@@ -180,7 +208,7 @@ func (c *AdminClient) DeleteOne(a *Admin) *AdminDeleteOne {
 }
 
 // DeleteOne returns a builder for deleting the given entity by its id.
-func (c *AdminClient) DeleteOneID(id int) *AdminDeleteOne {
+func (c *AdminClient) DeleteOneID(id int64) *AdminDeleteOne {
 	builder := c.Delete().Where(admin.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
@@ -195,12 +223,12 @@ func (c *AdminClient) Query() *AdminQuery {
 }
 
 // Get returns a Admin entity by its id.
-func (c *AdminClient) Get(ctx context.Context, id int) (*Admin, error) {
+func (c *AdminClient) Get(ctx context.Context, id int64) (*Admin, error) {
 	return c.Query().Where(admin.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *AdminClient) GetX(ctx context.Context, id int) *Admin {
+func (c *AdminClient) GetX(ctx context.Context, id int64) *Admin {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -211,4 +239,364 @@ func (c *AdminClient) GetX(ctx context.Context, id int) *Admin {
 // Hooks returns the client hooks.
 func (c *AdminClient) Hooks() []Hook {
 	return c.hooks.Admin
+}
+
+// PermissionClient is a client for the Permission schema.
+type PermissionClient struct {
+	config
+}
+
+// NewPermissionClient returns a client for the Permission from the given config.
+func NewPermissionClient(c config) *PermissionClient {
+	return &PermissionClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `permission.Hooks(f(g(h())))`.
+func (c *PermissionClient) Use(hooks ...Hook) {
+	c.hooks.Permission = append(c.hooks.Permission, hooks...)
+}
+
+// Create returns a builder for creating a Permission entity.
+func (c *PermissionClient) Create() *PermissionCreate {
+	mutation := newPermissionMutation(c.config, OpCreate)
+	return &PermissionCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Permission entities.
+func (c *PermissionClient) CreateBulk(builders ...*PermissionCreate) *PermissionCreateBulk {
+	return &PermissionCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Permission.
+func (c *PermissionClient) Update() *PermissionUpdate {
+	mutation := newPermissionMutation(c.config, OpUpdate)
+	return &PermissionUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PermissionClient) UpdateOne(pe *Permission) *PermissionUpdateOne {
+	mutation := newPermissionMutation(c.config, OpUpdateOne, withPermission(pe))
+	return &PermissionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PermissionClient) UpdateOneID(id int) *PermissionUpdateOne {
+	mutation := newPermissionMutation(c.config, OpUpdateOne, withPermissionID(id))
+	return &PermissionUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Permission.
+func (c *PermissionClient) Delete() *PermissionDelete {
+	mutation := newPermissionMutation(c.config, OpDelete)
+	return &PermissionDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PermissionClient) DeleteOne(pe *Permission) *PermissionDeleteOne {
+	return c.DeleteOneID(pe.ID)
+}
+
+// DeleteOne returns a builder for deleting the given entity by its id.
+func (c *PermissionClient) DeleteOneID(id int) *PermissionDeleteOne {
+	builder := c.Delete().Where(permission.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PermissionDeleteOne{builder}
+}
+
+// Query returns a query builder for Permission.
+func (c *PermissionClient) Query() *PermissionQuery {
+	return &PermissionQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a Permission entity by its id.
+func (c *PermissionClient) Get(ctx context.Context, id int) (*Permission, error) {
+	return c.Query().Where(permission.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PermissionClient) GetX(ctx context.Context, id int) *Permission {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *PermissionClient) Hooks() []Hook {
+	return c.hooks.Permission
+}
+
+// PermissionRuleClient is a client for the PermissionRule schema.
+type PermissionRuleClient struct {
+	config
+}
+
+// NewPermissionRuleClient returns a client for the PermissionRule from the given config.
+func NewPermissionRuleClient(c config) *PermissionRuleClient {
+	return &PermissionRuleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `permissionrule.Hooks(f(g(h())))`.
+func (c *PermissionRuleClient) Use(hooks ...Hook) {
+	c.hooks.PermissionRule = append(c.hooks.PermissionRule, hooks...)
+}
+
+// Create returns a builder for creating a PermissionRule entity.
+func (c *PermissionRuleClient) Create() *PermissionRuleCreate {
+	mutation := newPermissionRuleMutation(c.config, OpCreate)
+	return &PermissionRuleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of PermissionRule entities.
+func (c *PermissionRuleClient) CreateBulk(builders ...*PermissionRuleCreate) *PermissionRuleCreateBulk {
+	return &PermissionRuleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for PermissionRule.
+func (c *PermissionRuleClient) Update() *PermissionRuleUpdate {
+	mutation := newPermissionRuleMutation(c.config, OpUpdate)
+	return &PermissionRuleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *PermissionRuleClient) UpdateOne(pr *PermissionRule) *PermissionRuleUpdateOne {
+	mutation := newPermissionRuleMutation(c.config, OpUpdateOne, withPermissionRule(pr))
+	return &PermissionRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *PermissionRuleClient) UpdateOneID(id int) *PermissionRuleUpdateOne {
+	mutation := newPermissionRuleMutation(c.config, OpUpdateOne, withPermissionRuleID(id))
+	return &PermissionRuleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for PermissionRule.
+func (c *PermissionRuleClient) Delete() *PermissionRuleDelete {
+	mutation := newPermissionRuleMutation(c.config, OpDelete)
+	return &PermissionRuleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *PermissionRuleClient) DeleteOne(pr *PermissionRule) *PermissionRuleDeleteOne {
+	return c.DeleteOneID(pr.ID)
+}
+
+// DeleteOne returns a builder for deleting the given entity by its id.
+func (c *PermissionRuleClient) DeleteOneID(id int) *PermissionRuleDeleteOne {
+	builder := c.Delete().Where(permissionrule.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &PermissionRuleDeleteOne{builder}
+}
+
+// Query returns a query builder for PermissionRule.
+func (c *PermissionRuleClient) Query() *PermissionRuleQuery {
+	return &PermissionRuleQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a PermissionRule entity by its id.
+func (c *PermissionRuleClient) Get(ctx context.Context, id int) (*PermissionRule, error) {
+	return c.Query().Where(permissionrule.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *PermissionRuleClient) GetX(ctx context.Context, id int) *PermissionRule {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *PermissionRuleClient) Hooks() []Hook {
+	return c.hooks.PermissionRule
+}
+
+// RoleClient is a client for the Role schema.
+type RoleClient struct {
+	config
+}
+
+// NewRoleClient returns a client for the Role from the given config.
+func NewRoleClient(c config) *RoleClient {
+	return &RoleClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `role.Hooks(f(g(h())))`.
+func (c *RoleClient) Use(hooks ...Hook) {
+	c.hooks.Role = append(c.hooks.Role, hooks...)
+}
+
+// Create returns a builder for creating a Role entity.
+func (c *RoleClient) Create() *RoleCreate {
+	mutation := newRoleMutation(c.config, OpCreate)
+	return &RoleCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of Role entities.
+func (c *RoleClient) CreateBulk(builders ...*RoleCreate) *RoleCreateBulk {
+	return &RoleCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for Role.
+func (c *RoleClient) Update() *RoleUpdate {
+	mutation := newRoleMutation(c.config, OpUpdate)
+	return &RoleUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *RoleClient) UpdateOne(r *Role) *RoleUpdateOne {
+	mutation := newRoleMutation(c.config, OpUpdateOne, withRole(r))
+	return &RoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *RoleClient) UpdateOneID(id int64) *RoleUpdateOne {
+	mutation := newRoleMutation(c.config, OpUpdateOne, withRoleID(id))
+	return &RoleUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for Role.
+func (c *RoleClient) Delete() *RoleDelete {
+	mutation := newRoleMutation(c.config, OpDelete)
+	return &RoleDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *RoleClient) DeleteOne(r *Role) *RoleDeleteOne {
+	return c.DeleteOneID(r.ID)
+}
+
+// DeleteOne returns a builder for deleting the given entity by its id.
+func (c *RoleClient) DeleteOneID(id int64) *RoleDeleteOne {
+	builder := c.Delete().Where(role.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &RoleDeleteOne{builder}
+}
+
+// Query returns a query builder for Role.
+func (c *RoleClient) Query() *RoleQuery {
+	return &RoleQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a Role entity by its id.
+func (c *RoleClient) Get(ctx context.Context, id int64) (*Role, error) {
+	return c.Query().Where(role.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *RoleClient) GetX(ctx context.Context, id int64) *Role {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *RoleClient) Hooks() []Hook {
+	return c.hooks.Role
+}
+
+// RoleAdminClient is a client for the RoleAdmin schema.
+type RoleAdminClient struct {
+	config
+}
+
+// NewRoleAdminClient returns a client for the RoleAdmin from the given config.
+func NewRoleAdminClient(c config) *RoleAdminClient {
+	return &RoleAdminClient{config: c}
+}
+
+// Use adds a list of mutation hooks to the hooks stack.
+// A call to `Use(f, g, h)` equals to `roleadmin.Hooks(f(g(h())))`.
+func (c *RoleAdminClient) Use(hooks ...Hook) {
+	c.hooks.RoleAdmin = append(c.hooks.RoleAdmin, hooks...)
+}
+
+// Create returns a builder for creating a RoleAdmin entity.
+func (c *RoleAdminClient) Create() *RoleAdminCreate {
+	mutation := newRoleAdminMutation(c.config, OpCreate)
+	return &RoleAdminCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// CreateBulk returns a builder for creating a bulk of RoleAdmin entities.
+func (c *RoleAdminClient) CreateBulk(builders ...*RoleAdminCreate) *RoleAdminCreateBulk {
+	return &RoleAdminCreateBulk{config: c.config, builders: builders}
+}
+
+// Update returns an update builder for RoleAdmin.
+func (c *RoleAdminClient) Update() *RoleAdminUpdate {
+	mutation := newRoleAdminMutation(c.config, OpUpdate)
+	return &RoleAdminUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOne returns an update builder for the given entity.
+func (c *RoleAdminClient) UpdateOne(ra *RoleAdmin) *RoleAdminUpdateOne {
+	mutation := newRoleAdminMutation(c.config, OpUpdateOne, withRoleAdmin(ra))
+	return &RoleAdminUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// UpdateOneID returns an update builder for the given id.
+func (c *RoleAdminClient) UpdateOneID(id int) *RoleAdminUpdateOne {
+	mutation := newRoleAdminMutation(c.config, OpUpdateOne, withRoleAdminID(id))
+	return &RoleAdminUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// Delete returns a delete builder for RoleAdmin.
+func (c *RoleAdminClient) Delete() *RoleAdminDelete {
+	mutation := newRoleAdminMutation(c.config, OpDelete)
+	return &RoleAdminDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+}
+
+// DeleteOne returns a builder for deleting the given entity.
+func (c *RoleAdminClient) DeleteOne(ra *RoleAdmin) *RoleAdminDeleteOne {
+	return c.DeleteOneID(ra.ID)
+}
+
+// DeleteOne returns a builder for deleting the given entity by its id.
+func (c *RoleAdminClient) DeleteOneID(id int) *RoleAdminDeleteOne {
+	builder := c.Delete().Where(roleadmin.ID(id))
+	builder.mutation.id = &id
+	builder.mutation.op = OpDeleteOne
+	return &RoleAdminDeleteOne{builder}
+}
+
+// Query returns a query builder for RoleAdmin.
+func (c *RoleAdminClient) Query() *RoleAdminQuery {
+	return &RoleAdminQuery{
+		config: c.config,
+	}
+}
+
+// Get returns a RoleAdmin entity by its id.
+func (c *RoleAdminClient) Get(ctx context.Context, id int) (*RoleAdmin, error) {
+	return c.Query().Where(roleadmin.ID(id)).Only(ctx)
+}
+
+// GetX is like Get, but panics if an error occurs.
+func (c *RoleAdminClient) GetX(ctx context.Context, id int) *RoleAdmin {
+	obj, err := c.Get(ctx, id)
+	if err != nil {
+		panic(err)
+	}
+	return obj
+}
+
+// Hooks returns the client hooks.
+func (c *RoleAdminClient) Hooks() []Hook {
+	return c.hooks.RoleAdmin
 }

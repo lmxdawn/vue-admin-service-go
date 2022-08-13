@@ -4,7 +4,9 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"time"
 	"vue-admin/app/rbac/service/internal/data/ent/admin"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -16,6 +18,78 @@ type AdminCreate struct {
 	config
 	mutation *AdminMutation
 	hooks    []Hook
+}
+
+// SetUsername sets the "username" field.
+func (ac *AdminCreate) SetUsername(s string) *AdminCreate {
+	ac.mutation.SetUsername(s)
+	return ac
+}
+
+// SetPassword sets the "password" field.
+func (ac *AdminCreate) SetPassword(s string) *AdminCreate {
+	ac.mutation.SetPassword(s)
+	return ac
+}
+
+// SetTel sets the "tel" field.
+func (ac *AdminCreate) SetTel(s string) *AdminCreate {
+	ac.mutation.SetTel(s)
+	return ac
+}
+
+// SetEmail sets the "email" field.
+func (ac *AdminCreate) SetEmail(s string) *AdminCreate {
+	ac.mutation.SetEmail(s)
+	return ac
+}
+
+// SetAvatar sets the "avatar" field.
+func (ac *AdminCreate) SetAvatar(s string) *AdminCreate {
+	ac.mutation.SetAvatar(s)
+	return ac
+}
+
+// SetSex sets the "sex" field.
+func (ac *AdminCreate) SetSex(i int) *AdminCreate {
+	ac.mutation.SetSex(i)
+	return ac
+}
+
+// SetLastLoginIP sets the "last_login_ip" field.
+func (ac *AdminCreate) SetLastLoginIP(s string) *AdminCreate {
+	ac.mutation.SetLastLoginIP(s)
+	return ac
+}
+
+// SetLastLoginTime sets the "last_login_time" field.
+func (ac *AdminCreate) SetLastLoginTime(t time.Time) *AdminCreate {
+	ac.mutation.SetLastLoginTime(t)
+	return ac
+}
+
+// SetStatus sets the "status" field.
+func (ac *AdminCreate) SetStatus(i int) *AdminCreate {
+	ac.mutation.SetStatus(i)
+	return ac
+}
+
+// SetCreateTime sets the "create_time" field.
+func (ac *AdminCreate) SetCreateTime(t time.Time) *AdminCreate {
+	ac.mutation.SetCreateTime(t)
+	return ac
+}
+
+// SetUpdateTime sets the "update_time" field.
+func (ac *AdminCreate) SetUpdateTime(t time.Time) *AdminCreate {
+	ac.mutation.SetUpdateTime(t)
+	return ac
+}
+
+// SetID sets the "id" field.
+func (ac *AdminCreate) SetID(i int64) *AdminCreate {
+	ac.mutation.SetID(i)
+	return ac
 }
 
 // Mutation returns the AdminMutation object of the builder.
@@ -94,6 +168,39 @@ func (ac *AdminCreate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (ac *AdminCreate) check() error {
+	if _, ok := ac.mutation.Username(); !ok {
+		return &ValidationError{Name: "username", err: errors.New(`ent: missing required field "Admin.username"`)}
+	}
+	if _, ok := ac.mutation.Password(); !ok {
+		return &ValidationError{Name: "password", err: errors.New(`ent: missing required field "Admin.password"`)}
+	}
+	if _, ok := ac.mutation.Tel(); !ok {
+		return &ValidationError{Name: "tel", err: errors.New(`ent: missing required field "Admin.tel"`)}
+	}
+	if _, ok := ac.mutation.Email(); !ok {
+		return &ValidationError{Name: "email", err: errors.New(`ent: missing required field "Admin.email"`)}
+	}
+	if _, ok := ac.mutation.Avatar(); !ok {
+		return &ValidationError{Name: "avatar", err: errors.New(`ent: missing required field "Admin.avatar"`)}
+	}
+	if _, ok := ac.mutation.Sex(); !ok {
+		return &ValidationError{Name: "sex", err: errors.New(`ent: missing required field "Admin.sex"`)}
+	}
+	if _, ok := ac.mutation.LastLoginIP(); !ok {
+		return &ValidationError{Name: "last_login_ip", err: errors.New(`ent: missing required field "Admin.last_login_ip"`)}
+	}
+	if _, ok := ac.mutation.LastLoginTime(); !ok {
+		return &ValidationError{Name: "last_login_time", err: errors.New(`ent: missing required field "Admin.last_login_time"`)}
+	}
+	if _, ok := ac.mutation.Status(); !ok {
+		return &ValidationError{Name: "status", err: errors.New(`ent: missing required field "Admin.status"`)}
+	}
+	if _, ok := ac.mutation.CreateTime(); !ok {
+		return &ValidationError{Name: "create_time", err: errors.New(`ent: missing required field "Admin.create_time"`)}
+	}
+	if _, ok := ac.mutation.UpdateTime(); !ok {
+		return &ValidationError{Name: "update_time", err: errors.New(`ent: missing required field "Admin.update_time"`)}
+	}
 	return nil
 }
 
@@ -105,8 +212,10 @@ func (ac *AdminCreate) sqlSave(ctx context.Context) (*Admin, error) {
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = int64(id)
+	}
 	return _node, nil
 }
 
@@ -116,11 +225,103 @@ func (ac *AdminCreate) createSpec() (*Admin, *sqlgraph.CreateSpec) {
 		_spec = &sqlgraph.CreateSpec{
 			Table: admin.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: admin.FieldID,
 			},
 		}
 	)
+	if id, ok := ac.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
+	if value, ok := ac.mutation.Username(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldUsername,
+		})
+		_node.Username = value
+	}
+	if value, ok := ac.mutation.Password(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldPassword,
+		})
+		_node.Password = value
+	}
+	if value, ok := ac.mutation.Tel(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldTel,
+		})
+		_node.Tel = value
+	}
+	if value, ok := ac.mutation.Email(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldEmail,
+		})
+		_node.Email = value
+	}
+	if value, ok := ac.mutation.Avatar(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldAvatar,
+		})
+		_node.Avatar = value
+	}
+	if value, ok := ac.mutation.Sex(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldSex,
+		})
+		_node.Sex = value
+	}
+	if value, ok := ac.mutation.LastLoginIP(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeString,
+			Value:  value,
+			Column: admin.FieldLastLoginIP,
+		})
+		_node.LastLoginIP = value
+	}
+	if value, ok := ac.mutation.LastLoginTime(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldLastLoginTime,
+		})
+		_node.LastLoginTime = value
+	}
+	if value, ok := ac.mutation.Status(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeInt,
+			Value:  value,
+			Column: admin.FieldStatus,
+		})
+		_node.Status = value
+	}
+	if value, ok := ac.mutation.CreateTime(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldCreateTime,
+		})
+		_node.CreateTime = value
+	}
+	if value, ok := ac.mutation.UpdateTime(); ok {
+		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
+			Type:   field.TypeTime,
+			Value:  value,
+			Column: admin.FieldUpdateTime,
+		})
+		_node.UpdateTime = value
+	}
 	return _node, _spec
 }
 
@@ -164,9 +365,9 @@ func (acb *AdminCreateBulk) Save(ctx context.Context) ([]*Admin, error) {
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = int64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

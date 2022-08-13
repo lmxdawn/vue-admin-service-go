@@ -83,8 +83,8 @@ func (aq *AdminQuery) FirstX(ctx context.Context) *Admin {
 
 // FirstID returns the first Admin ID from the query.
 // Returns a *NotFoundError when no Admin ID was found.
-func (aq *AdminQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (aq *AdminQuery) FirstID(ctx context.Context) (id int64, err error) {
+	var ids []int64
 	if ids, err = aq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (aq *AdminQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (aq *AdminQuery) FirstIDX(ctx context.Context) int {
+func (aq *AdminQuery) FirstIDX(ctx context.Context) int64 {
 	id, err := aq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (aq *AdminQuery) OnlyX(ctx context.Context) *Admin {
 // OnlyID is like Only, but returns the only Admin ID in the query.
 // Returns a *NotSingularError when more than one Admin ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (aq *AdminQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (aq *AdminQuery) OnlyID(ctx context.Context) (id int64, err error) {
+	var ids []int64
 	if ids, err = aq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (aq *AdminQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (aq *AdminQuery) OnlyIDX(ctx context.Context) int {
+func (aq *AdminQuery) OnlyIDX(ctx context.Context) int64 {
 	id, err := aq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -177,8 +177,8 @@ func (aq *AdminQuery) AllX(ctx context.Context) []*Admin {
 }
 
 // IDs executes the query and returns a list of Admin IDs.
-func (aq *AdminQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (aq *AdminQuery) IDs(ctx context.Context) ([]int64, error) {
+	var ids []int64
 	if err := aq.Select(admin.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -186,7 +186,7 @@ func (aq *AdminQuery) IDs(ctx context.Context) ([]int, error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (aq *AdminQuery) IDsX(ctx context.Context) []int {
+func (aq *AdminQuery) IDsX(ctx context.Context) []int64 {
 	ids, err := aq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -249,6 +249,19 @@ func (aq *AdminQuery) Clone() *AdminQuery {
 
 // GroupBy is used to group vertices by one or more fields/columns.
 // It is often used with aggregate functions, like: count, max, mean, min, sum.
+//
+// Example:
+//
+//	var v []struct {
+//		Username string `json:"username,omitempty"`
+//		Count int `json:"count,omitempty"`
+//	}
+//
+//	client.Admin.Query().
+//		GroupBy(admin.FieldUsername).
+//		Aggregate(ent.Count()).
+//		Scan(ctx, &v)
+//
 func (aq *AdminQuery) GroupBy(field string, fields ...string) *AdminGroupBy {
 	grbuild := &AdminGroupBy{config: aq.config}
 	grbuild.fields = append([]string{field}, fields...)
@@ -265,6 +278,17 @@ func (aq *AdminQuery) GroupBy(field string, fields ...string) *AdminGroupBy {
 
 // Select allows the selection one or more fields/columns for the given query,
 // instead of selecting all fields in the entity.
+//
+// Example:
+//
+//	var v []struct {
+//		Username string `json:"username,omitempty"`
+//	}
+//
+//	client.Admin.Query().
+//		Select(admin.FieldUsername).
+//		Scan(ctx, &v)
+//
 func (aq *AdminQuery) Select(fields ...string) *AdminSelect {
 	aq.fields = append(aq.fields, fields...)
 	selbuild := &AdminSelect{AdminQuery: aq}
@@ -337,7 +361,7 @@ func (aq *AdminQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   admin.Table,
 			Columns: admin.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: admin.FieldID,
 			},
 		},

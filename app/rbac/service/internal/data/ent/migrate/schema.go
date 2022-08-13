@@ -10,7 +10,18 @@ import (
 var (
 	// AdminsColumns holds the columns for the "admins" table.
 	AdminsColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
+		{Name: "username", Type: field.TypeString},
+		{Name: "password", Type: field.TypeString},
+		{Name: "tel", Type: field.TypeString},
+		{Name: "email", Type: field.TypeString},
+		{Name: "avatar", Type: field.TypeString},
+		{Name: "sex", Type: field.TypeInt},
+		{Name: "last_login_ip", Type: field.TypeString},
+		{Name: "last_login_time", Type: field.TypeTime},
+		{Name: "status", Type: field.TypeInt},
+		{Name: "create_time", Type: field.TypeTime},
+		{Name: "update_time", Type: field.TypeTime},
 	}
 	// AdminsTable holds the schema information for the "admins" table.
 	AdminsTable = &schema.Table{
@@ -18,9 +29,73 @@ var (
 		Columns:    AdminsColumns,
 		PrimaryKey: []*schema.Column{AdminsColumns[0]},
 	}
+	// PermissionsColumns holds the columns for the "permissions" table.
+	PermissionsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "role_id", Type: field.TypeInt},
+		{Name: "permission_rule_id", Type: field.TypeInt},
+		{Name: "type", Type: field.TypeString},
+	}
+	// PermissionsTable holds the schema information for the "permissions" table.
+	PermissionsTable = &schema.Table{
+		Name:       "permissions",
+		Columns:    PermissionsColumns,
+		PrimaryKey: []*schema.Column{PermissionsColumns[0]},
+	}
+	// PermissionRulesColumns holds the columns for the "permission_rules" table.
+	PermissionRulesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "pid", Type: field.TypeInt},
+		{Name: "name", Type: field.TypeString},
+		{Name: "title", Type: field.TypeString},
+		{Name: "status", Type: field.TypeInt},
+		{Name: "condition", Type: field.TypeString},
+		{Name: "sort", Type: field.TypeInt},
+		{Name: "create_time", Type: field.TypeTime},
+		{Name: "update_time", Type: field.TypeTime},
+	}
+	// PermissionRulesTable holds the schema information for the "permission_rules" table.
+	PermissionRulesTable = &schema.Table{
+		Name:       "permission_rules",
+		Columns:    PermissionRulesColumns,
+		PrimaryKey: []*schema.Column{PermissionRulesColumns[0]},
+	}
+	// RolesColumns holds the columns for the "roles" table.
+	RolesColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt64, Increment: true},
+		{Name: "name", Type: field.TypeString},
+		{Name: "pid", Type: field.TypeInt},
+		{Name: "status", Type: field.TypeInt},
+		{Name: "remark", Type: field.TypeString},
+		{Name: "sort", Type: field.TypeInt},
+		{Name: "create_time", Type: field.TypeTime},
+		{Name: "update_time", Type: field.TypeTime},
+	}
+	// RolesTable holds the schema information for the "roles" table.
+	RolesTable = &schema.Table{
+		Name:       "roles",
+		Columns:    RolesColumns,
+		PrimaryKey: []*schema.Column{RolesColumns[0]},
+	}
+	// RoleAdminsColumns holds the columns for the "role_admins" table.
+	RoleAdminsColumns = []*schema.Column{
+		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "role_id", Type: field.TypeInt},
+		{Name: "admin_id", Type: field.TypeInt},
+	}
+	// RoleAdminsTable holds the schema information for the "role_admins" table.
+	RoleAdminsTable = &schema.Table{
+		Name:       "role_admins",
+		Columns:    RoleAdminsColumns,
+		PrimaryKey: []*schema.Column{RoleAdminsColumns[0]},
+	}
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		AdminsTable,
+		PermissionsTable,
+		PermissionRulesTable,
+		RolesTable,
+		RoleAdminsTable,
 	}
 )
 
