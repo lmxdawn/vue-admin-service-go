@@ -44,10 +44,10 @@ func NewData(c *conf.Data, logger log.Logger) (*Data, func(), error) {
 	}
 	// Run the auto migration tool.
 	// 自动创建表结构
-	if err := client.Schema.Create(context.Background()); err != nil {
-		helper.Errorf("failed creating schema resources: %v", err)
-		return nil, nil, err
-	}
+	//if err := client.Schema.Create(context.Background()); err != nil {
+	//	helper.Errorf("failed creating schema resources: %v", err)
+	//	return nil, nil, err
+	//}
 
 	rdb := redis.NewClient(&redis.Options{
 		Addr:         c.Redis.Addr,
