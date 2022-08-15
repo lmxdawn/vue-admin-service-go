@@ -1183,22 +1183,22 @@ var _ interface {
 	ErrorName() string
 } = ListAdminReplyValidationError{}
 
-// Validate checks the field values on RoleListRequest with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// first error encountered is returned, or nil if there are no violations.
-func (m *RoleListRequest) Validate() error {
+// Validate checks the field values on RoleAdminListRequest with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RoleAdminListRequest) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on RoleListRequest with the rules
+// ValidateAll checks the field values on RoleAdminListRequest with the rules
 // defined in the proto definition for this message. If any rules are
 // violated, the result is a list of violation errors wrapped in
-// RoleListRequestMultiError, or nil if none found.
-func (m *RoleListRequest) ValidateAll() error {
+// RoleAdminListRequestMultiError, or nil if none found.
+func (m *RoleAdminListRequest) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *RoleListRequest) validate(all bool) error {
+func (m *RoleAdminListRequest) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
@@ -1206,7 +1206,7 @@ func (m *RoleListRequest) validate(all bool) error {
 	var errors []error
 
 	if m.GetPage() <= 0 {
-		err := RoleListRequestValidationError{
+		err := RoleAdminListRequestValidationError{
 			field:  "Page",
 			reason: "value must be greater than 0",
 		}
@@ -1217,7 +1217,7 @@ func (m *RoleListRequest) validate(all bool) error {
 	}
 
 	if val := m.GetLimit(); val <= 0 || val >= 300 {
-		err := RoleListRequestValidationError{
+		err := RoleAdminListRequestValidationError{
 			field:  "Limit",
 			reason: "value must be inside range (0, 300)",
 		}
@@ -1228,19 +1228,19 @@ func (m *RoleListRequest) validate(all bool) error {
 	}
 
 	if len(errors) > 0 {
-		return RoleListRequestMultiError(errors)
+		return RoleAdminListRequestMultiError(errors)
 	}
 
 	return nil
 }
 
-// RoleListRequestMultiError is an error wrapping multiple validation errors
-// returned by RoleListRequest.ValidateAll() if the designated constraints
-// aren't met.
-type RoleListRequestMultiError []error
+// RoleAdminListRequestMultiError is an error wrapping multiple validation
+// errors returned by RoleAdminListRequest.ValidateAll() if the designated
+// constraints aren't met.
+type RoleAdminListRequestMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m RoleListRequestMultiError) Error() string {
+func (m RoleAdminListRequestMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1249,11 +1249,11 @@ func (m RoleListRequestMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m RoleListRequestMultiError) AllErrors() []error { return m }
+func (m RoleAdminListRequestMultiError) AllErrors() []error { return m }
 
-// RoleListRequestValidationError is the validation error returned by
-// RoleListRequest.Validate if the designated constraints aren't met.
-type RoleListRequestValidationError struct {
+// RoleAdminListRequestValidationError is the validation error returned by
+// RoleAdminListRequest.Validate if the designated constraints aren't met.
+type RoleAdminListRequestValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1261,22 +1261,24 @@ type RoleListRequestValidationError struct {
 }
 
 // Field function returns field value.
-func (e RoleListRequestValidationError) Field() string { return e.field }
+func (e RoleAdminListRequestValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RoleListRequestValidationError) Reason() string { return e.reason }
+func (e RoleAdminListRequestValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RoleListRequestValidationError) Cause() error { return e.cause }
+func (e RoleAdminListRequestValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RoleListRequestValidationError) Key() bool { return e.key }
+func (e RoleAdminListRequestValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RoleListRequestValidationError) ErrorName() string { return "RoleListRequestValidationError" }
+func (e RoleAdminListRequestValidationError) ErrorName() string {
+	return "RoleAdminListRequestValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e RoleListRequestValidationError) Error() string {
+func (e RoleAdminListRequestValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1288,14 +1290,14 @@ func (e RoleListRequestValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRoleListRequest.%s: %s%s",
+		"invalid %sRoleAdminListRequest.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RoleListRequestValidationError{}
+var _ error = RoleAdminListRequestValidationError{}
 
 var _ interface {
 	Field() string
@@ -1303,48 +1305,80 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RoleListRequestValidationError{}
+} = RoleAdminListRequestValidationError{}
 
-// Validate checks the field values on RoleListReply with the rules defined in
-// the proto definition for this message. If any rules are violated, the first
-// error encountered is returned, or nil if there are no violations.
-func (m *RoleListReply) Validate() error {
+// Validate checks the field values on RoleAdminListReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RoleAdminListReply) Validate() error {
 	return m.validate(false)
 }
 
-// ValidateAll checks the field values on RoleListReply with the rules defined
-// in the proto definition for this message. If any rules are violated, the
-// result is a list of violation errors wrapped in RoleListReplyMultiError, or
-// nil if none found.
-func (m *RoleListReply) ValidateAll() error {
+// ValidateAll checks the field values on RoleAdminListReply with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RoleAdminListReplyMultiError, or nil if none found.
+func (m *RoleAdminListReply) ValidateAll() error {
 	return m.validate(true)
 }
 
-func (m *RoleListReply) validate(all bool) error {
+func (m *RoleAdminListReply) validate(all bool) error {
 	if m == nil {
 		return nil
 	}
 
 	var errors []error
 
-	// no validation rules for Id
+	// no validation rules for Total
 
-	// no validation rules for Name
+	for idx, item := range m.GetList() {
+		_, _ = idx, item
+
+		if all {
+			switch v := interface{}(item).(type) {
+			case interface{ ValidateAll() error }:
+				if err := v.ValidateAll(); err != nil {
+					errors = append(errors, RoleAdminListReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			case interface{ Validate() error }:
+				if err := v.Validate(); err != nil {
+					errors = append(errors, RoleAdminListReplyValidationError{
+						field:  fmt.Sprintf("List[%v]", idx),
+						reason: "embedded message failed validation",
+						cause:  err,
+					})
+				}
+			}
+		} else if v, ok := interface{}(item).(interface{ Validate() error }); ok {
+			if err := v.Validate(); err != nil {
+				return RoleAdminListReplyValidationError{
+					field:  fmt.Sprintf("List[%v]", idx),
+					reason: "embedded message failed validation",
+					cause:  err,
+				}
+			}
+		}
+
+	}
 
 	if len(errors) > 0 {
-		return RoleListReplyMultiError(errors)
+		return RoleAdminListReplyMultiError(errors)
 	}
 
 	return nil
 }
 
-// RoleListReplyMultiError is an error wrapping multiple validation errors
-// returned by RoleListReply.ValidateAll() if the designated constraints
+// RoleAdminListReplyMultiError is an error wrapping multiple validation errors
+// returned by RoleAdminListReply.ValidateAll() if the designated constraints
 // aren't met.
-type RoleListReplyMultiError []error
+type RoleAdminListReplyMultiError []error
 
 // Error returns a concatenation of all the error messages it wraps.
-func (m RoleListReplyMultiError) Error() string {
+func (m RoleAdminListReplyMultiError) Error() string {
 	var msgs []string
 	for _, err := range m {
 		msgs = append(msgs, err.Error())
@@ -1353,11 +1387,11 @@ func (m RoleListReplyMultiError) Error() string {
 }
 
 // AllErrors returns a list of validation violation errors.
-func (m RoleListReplyMultiError) AllErrors() []error { return m }
+func (m RoleAdminListReplyMultiError) AllErrors() []error { return m }
 
-// RoleListReplyValidationError is the validation error returned by
-// RoleListReply.Validate if the designated constraints aren't met.
-type RoleListReplyValidationError struct {
+// RoleAdminListReplyValidationError is the validation error returned by
+// RoleAdminListReply.Validate if the designated constraints aren't met.
+type RoleAdminListReplyValidationError struct {
 	field  string
 	reason string
 	cause  error
@@ -1365,22 +1399,24 @@ type RoleListReplyValidationError struct {
 }
 
 // Field function returns field value.
-func (e RoleListReplyValidationError) Field() string { return e.field }
+func (e RoleAdminListReplyValidationError) Field() string { return e.field }
 
 // Reason function returns reason value.
-func (e RoleListReplyValidationError) Reason() string { return e.reason }
+func (e RoleAdminListReplyValidationError) Reason() string { return e.reason }
 
 // Cause function returns cause value.
-func (e RoleListReplyValidationError) Cause() error { return e.cause }
+func (e RoleAdminListReplyValidationError) Cause() error { return e.cause }
 
 // Key function returns key value.
-func (e RoleListReplyValidationError) Key() bool { return e.key }
+func (e RoleAdminListReplyValidationError) Key() bool { return e.key }
 
 // ErrorName returns error name.
-func (e RoleListReplyValidationError) ErrorName() string { return "RoleListReplyValidationError" }
+func (e RoleAdminListReplyValidationError) ErrorName() string {
+	return "RoleAdminListReplyValidationError"
+}
 
 // Error satisfies the builtin error interface
-func (e RoleListReplyValidationError) Error() string {
+func (e RoleAdminListReplyValidationError) Error() string {
 	cause := ""
 	if e.cause != nil {
 		cause = fmt.Sprintf(" | caused by: %v", e.cause)
@@ -1392,14 +1428,14 @@ func (e RoleListReplyValidationError) Error() string {
 	}
 
 	return fmt.Sprintf(
-		"invalid %sRoleListReply.%s: %s%s",
+		"invalid %sRoleAdminListReply.%s: %s%s",
 		key,
 		e.field,
 		e.reason,
 		cause)
 }
 
-var _ error = RoleListReplyValidationError{}
+var _ error = RoleAdminListReplyValidationError{}
 
 var _ interface {
 	Field() string
@@ -1407,7 +1443,7 @@ var _ interface {
 	Key() bool
 	Cause() error
 	ErrorName() string
-} = RoleListReplyValidationError{}
+} = RoleAdminListReplyValidationError{}
 
 // Validate checks the field values on ListAdminReply_Admin with the rules
 // defined in the proto definition for this message. If any rules are
@@ -1434,8 +1470,6 @@ func (m *ListAdminReply_Admin) validate(all bool) error {
 	// no validation rules for Id
 
 	// no validation rules for Username
-
-	// no validation rules for Password
 
 	// no validation rules for Tel
 
@@ -1615,3 +1649,109 @@ var _ interface {
 	Cause() error
 	ErrorName() string
 } = ListAdminReply_AdminValidationError{}
+
+// Validate checks the field values on RoleAdminListReply_Role with the rules
+// defined in the proto definition for this message. If any rules are
+// violated, the first error encountered is returned, or nil if there are no violations.
+func (m *RoleAdminListReply_Role) Validate() error {
+	return m.validate(false)
+}
+
+// ValidateAll checks the field values on RoleAdminListReply_Role with the
+// rules defined in the proto definition for this message. If any rules are
+// violated, the result is a list of violation errors wrapped in
+// RoleAdminListReply_RoleMultiError, or nil if none found.
+func (m *RoleAdminListReply_Role) ValidateAll() error {
+	return m.validate(true)
+}
+
+func (m *RoleAdminListReply_Role) validate(all bool) error {
+	if m == nil {
+		return nil
+	}
+
+	var errors []error
+
+	// no validation rules for Id
+
+	// no validation rules for Name
+
+	if len(errors) > 0 {
+		return RoleAdminListReply_RoleMultiError(errors)
+	}
+
+	return nil
+}
+
+// RoleAdminListReply_RoleMultiError is an error wrapping multiple validation
+// errors returned by RoleAdminListReply_Role.ValidateAll() if the designated
+// constraints aren't met.
+type RoleAdminListReply_RoleMultiError []error
+
+// Error returns a concatenation of all the error messages it wraps.
+func (m RoleAdminListReply_RoleMultiError) Error() string {
+	var msgs []string
+	for _, err := range m {
+		msgs = append(msgs, err.Error())
+	}
+	return strings.Join(msgs, "; ")
+}
+
+// AllErrors returns a list of validation violation errors.
+func (m RoleAdminListReply_RoleMultiError) AllErrors() []error { return m }
+
+// RoleAdminListReply_RoleValidationError is the validation error returned by
+// RoleAdminListReply_Role.Validate if the designated constraints aren't met.
+type RoleAdminListReply_RoleValidationError struct {
+	field  string
+	reason string
+	cause  error
+	key    bool
+}
+
+// Field function returns field value.
+func (e RoleAdminListReply_RoleValidationError) Field() string { return e.field }
+
+// Reason function returns reason value.
+func (e RoleAdminListReply_RoleValidationError) Reason() string { return e.reason }
+
+// Cause function returns cause value.
+func (e RoleAdminListReply_RoleValidationError) Cause() error { return e.cause }
+
+// Key function returns key value.
+func (e RoleAdminListReply_RoleValidationError) Key() bool { return e.key }
+
+// ErrorName returns error name.
+func (e RoleAdminListReply_RoleValidationError) ErrorName() string {
+	return "RoleAdminListReply_RoleValidationError"
+}
+
+// Error satisfies the builtin error interface
+func (e RoleAdminListReply_RoleValidationError) Error() string {
+	cause := ""
+	if e.cause != nil {
+		cause = fmt.Sprintf(" | caused by: %v", e.cause)
+	}
+
+	key := ""
+	if e.key {
+		key = "key for "
+	}
+
+	return fmt.Sprintf(
+		"invalid %sRoleAdminListReply_Role.%s: %s%s",
+		key,
+		e.field,
+		e.reason,
+		cause)
+}
+
+var _ error = RoleAdminListReply_RoleValidationError{}
+
+var _ interface {
+	Field() string
+	Reason() string
+	Key() bool
+	Cause() error
+	ErrorName() string
+} = RoleAdminListReply_RoleValidationError{}

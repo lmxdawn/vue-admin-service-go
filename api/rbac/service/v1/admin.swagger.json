@@ -29,10 +29,6 @@
           "type": "string",
           "title": "昵称"
         },
-        "password": {
-          "type": "string",
-          "title": "登录密码"
-        },
         "tel": {
           "type": "string",
           "title": "手机号"
@@ -73,6 +69,27 @@
           "type": "integer",
           "format": "int32",
           "title": "状态"
+        },
+        "roles": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "int32"
+          }
+        }
+      }
+    },
+    "RoleAdminListReplyRole": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "ID"
+        },
+        "name": {
+          "type": "string",
+          "title": "角色名称"
         }
       }
     },
@@ -133,17 +150,20 @@
         }
       }
     },
-    "v1RoleListReply": {
+    "v1RoleAdminListReply": {
       "type": "object",
       "properties": {
-        "id": {
-          "type": "string",
-          "format": "int64",
-          "title": "ID"
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "title": "分页总数"
         },
-        "name": {
-          "type": "string",
-          "title": "角色名称"
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/RoleAdminListReplyRole"
+          },
+          "title": "分页列表"
         }
       }
     },

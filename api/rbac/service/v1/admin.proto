@@ -12,7 +12,7 @@ service Admin {
 	rpc UpdateAdmin (UpdateAdminRequest) returns (UpdateAdminReply);
 	rpc DeleteAdmin (DeleteAdminRequest) returns (DeleteAdminReply);
 	rpc ListAdmin (ListAdminRequest) returns (ListAdminReply);
-	rpc RoleList (RoleListRequest) returns (RoleListReply);
+	rpc RoleAdminList (RoleAdminListRequest) returns (RoleAdminListReply);
 }
 
 message CreateAdminRequest {
@@ -70,8 +70,6 @@ message ListAdminReply {
 		int64 id = 1;
 		 // 昵称
 		string username = 2;
-		 // 登录密码
-		string password = 3;
 		 // 手机号
 		string tel = 4;
 		 // 邮箱
@@ -90,6 +88,7 @@ message ListAdminReply {
 		google.protobuf.Timestamp update_time = 11;
 		 // 状态
 		int32 status = 12;
+		repeated int32 roles = 13;
 	}
 	 // 分页总数
 	int32 total = 1;
@@ -97,13 +96,19 @@ message ListAdminReply {
 	repeated Admin list = 2;
 }
 
-message RoleListRequest {
+message RoleAdminListRequest {
 	int32 page = 1 [(validate.rules).int32 = {gt:0}];
 	int32 limit = 2 [(validate.rules).int32 = {gt:0, lt: 300}];
 }
-message RoleListReply {
-	 // ID
-	int64 id = 1;
-	 // 角色名称
-	string name = 2;
+message RoleAdminListReply {
+	message Role {
+		// ID
+		int64 id = 1;
+		// 角色名称
+		string name = 2;
+	}
+	// 分页总数
+	int32 total = 1;
+	// 分页列表
+	repeated Role list = 2;
 }

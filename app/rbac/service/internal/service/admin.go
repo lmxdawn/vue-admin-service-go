@@ -40,6 +40,27 @@ func (s *AdminService) ListAdmin(ctx context.Context, in *v1.ListAdminRequest) (
 	}, nil
 }
 
+// RoleAdminList implements
+func (s *AdminService) RoleAdminList(ctx context.Context, in *v1.RoleAdminListRequest) (*v1.RoleAdminListReply, error) {
+
+	var req *biz.AdminQuery
+	_ = copier.Copy(req, in)
+
+	total, list, err := s.uc.RoleList(ctx, int(in.Page), int(in.Limit))
+	if err != nil {
+		return nil, err
+	}
+
+	var replyRoleAdmins []*v1.RoleAdminListReply_Role
+
+	_ = copier.Copy(replyRoleAdmins, list)
+
+	return &v1.RoleAdminListReply{
+		Total: int32(total),
+		List:  replyRoleAdmins,
+	}, nil
+}
+
 // CreateAdmin implements
 func (s *AdminService) CreateAdmin(ctx context.Context, in *v1.CreateAdminRequest) (*v1.CreateAdminReply, error) {
 	g, err := s.uc.Create(ctx, &biz.Admin{Username: in.Username})
