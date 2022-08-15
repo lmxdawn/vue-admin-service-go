@@ -22,7 +22,7 @@ func (Role) Annotations() []schema.Annotation {
 // Fields of the Role.
 func (Role) Fields() []ent.Field {
 	return []ent.Field{
-		field.Int64("id"),
+		field.Int("id"),
 		field.String("name"),
 		field.Int("pid"),
 		field.Int("status"),

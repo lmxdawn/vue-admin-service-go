@@ -63,7 +63,7 @@ var (
 	}
 	// RoleColumns holds the columns for the "role" table.
 	RoleColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt64, Increment: true},
+		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString},
 		{Name: "pid", Type: field.TypeInt},
 		{Name: "status", Type: field.TypeInt},
@@ -80,9 +80,9 @@ var (
 	}
 	// RoleAdminColumns holds the columns for the "role_admin" table.
 	RoleAdminColumns = []*schema.Column{
-		{Name: "id", Type: field.TypeInt, Increment: true},
+		{Name: "id", Type: field.TypeInt64, Increment: true},
 		{Name: "role_id", Type: field.TypeInt},
-		{Name: "admin_id", Type: field.TypeInt},
+		{Name: "admin_id", Type: field.TypeInt64},
 	}
 	// RoleAdminTable holds the schema information for the "role_admin" table.
 	RoleAdminTable = &schema.Table{

@@ -22,8 +22,9 @@ func (RoleAdmin) Annotations() []schema.Annotation {
 // Fields of the RoleAdmin.
 func (RoleAdmin) Fields() []ent.Field {
 	return []ent.Field{
+		field.Int64("id"),
 		field.Int("role_id"),
-		field.Int("admin_id"),
+		field.Int64("admin_id"),
 	}
 }
 

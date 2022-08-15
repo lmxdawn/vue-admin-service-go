@@ -2,6 +2,7 @@ package biz
 
 import (
 	"context"
+	"time"
 
 	"github.com/go-kratos/kratos/v2/errors"
 	"github.com/go-kratos/kratos/v2/log"
@@ -14,16 +15,32 @@ var (
 
 // Role is a Role model.
 type Role struct {
-	Name string
+	Id         int
+	Name       string
+	Pid        int
+	Status     int
+	Remark     string
+	Sort       int
+	CreateTime time.Time
+	UpdateTime time.Time
+}
+
+// RoleQuery is a
+type RoleQuery struct {
+	Page   int
+	Limit  int
+	Name   string
+	Status int
 }
 
 // RoleRepo is a Role repo.
 type RoleRepo interface {
-	Save(context.Context, *Role) (*Role, error)
-	Update(context.Context, *Role) (*Role, error)
-	FindByID(context.Context, int64) (*Role, error)
-	ListByHello(context.Context, string) ([]*Role, error)
-	ListAll(context.Context) ([]*Role, error)
+	Save(ctx context.Context, data *Role) (int, error)
+	Update(ctx context.Context, data *Role) (int, error)
+	DeleteById(ctx context.Context, id int) error
+	FindByName(ctx context.Context, name string) (*Role, error)
+	ListRolePage(ctx context.Context, q *RoleQuery) (int, []*Role, error)
+	ListPage(ctx context.Context, q *RoleQuery) (int, []*Role, error)
 }
 
 // RoleUsecase is Role usecase.
@@ -40,5 +57,6 @@ func NewRoleUsecase(repo RoleRepo, logger log.Logger) *RoleUsecase {
 // CreateRole creates Role, and returns the new Role.
 func (uc *RoleUsecase) CreateRole(ctx context.Context, g *Role) (*Role, error) {
 	uc.log.WithContext(ctx).Infof("CreateRole: %v", g.Name)
-	return uc.repo.Save(ctx, g)
+	//return uc.repo.Save(ctx, g)
+	return nil, nil
 }

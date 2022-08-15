@@ -2,36 +2,108 @@ syntax = "proto3";
 
 package api.rbac.service.v1;
 
+import "google/protobuf/timestamp.proto";
+import "validate/validate.proto";
+
 option go_package = "vue-admin/api/rbac/service/v1;v1";
 
 service Admin {
 	rpc CreateAdmin (CreateAdminRequest) returns (CreateAdminReply);
 	rpc UpdateAdmin (UpdateAdminRequest) returns (UpdateAdminReply);
 	rpc DeleteAdmin (DeleteAdminRequest) returns (DeleteAdminReply);
-	rpc GetAdmin (GetAdminRequest) returns (GetAdminReply);
 	rpc ListAdmin (ListAdminRequest) returns (ListAdminReply);
+	rpc RoleList (RoleListRequest) returns (RoleListReply);
 }
 
 message CreateAdminRequest {
-	string username = 1;
+	 // 用户名
+	string username = 1 [(validate.rules).string = {min_len: 1, max_len: 255}];
+	 // 密码
+	string password = 2 [(validate.rules).string = {min_len: 1, max_len: 255}];
+	 // 状态
+	int32 status = 3 [(validate.rules).int32 = {in: [0,1]}];
+	 // 角色ID
+	repeated string roles = 4;
 }
 
 message CreateAdminReply {
-	message Admin {
-		int64 id = 1;
-		string username = 2;
-	}
-	Admin admin = 1;
+	 // 管理员id
+	int64 id = 1;
 }
 
-message UpdateAdminRequest {}
+message UpdateAdminRequest {
+
+	int64 id = 1 [(validate.rules).int64 = {gt: 0}];
+	 // 用户名
+	string username = 2 [(validate.rules).string = {min_len: 1, max_len: 255}];
+	 // 密码
+	string password = 3 [(validate.rules).string = {min_len: 1, max_len: 255}];
+	 // 状态
+	int32 status = 4 [(validate.rules).int32 = {in: [0,1]}];
+	 // 角色ID
+	repeated string roles = 7;
+}
 message UpdateAdminReply {}
 
-message DeleteAdminRequest {}
+message DeleteAdminRequest {
+	// 用户ID
+	int64 id = 1 [(validate.rules).int64 = {gt: 0}];
+}
 message DeleteAdminReply {}
 
 message GetAdminRequest {}
 message GetAdminReply {}
 
-message ListAdminRequest {}
-message ListAdminReply {}
+message ListAdminRequest {
+	 // 用户名
+	string username = 1;
+	 // 用户状态（0：禁用； 1：正常 ；2：未验证）
+	int32 status = 2;
+	 // 角色ID列表
+	int64 role_id = 3;
+	 // 用户ID列表
+	repeated int64 ids = 4;
+}
+message ListAdminReply {
+	message Admin {
+		 // 主键
+		int64 id = 1;
+		 // 昵称
+		string username = 2;
+		 // 登录密码
+		string password = 3;
+		 // 手机号
+		string tel = 4;
+		 // 邮箱
+		string email = 5;
+		 // 头像
+		string avatar = 6;
+		 // 性别
+		int32 sex = 7;
+		 // 最后登录ip
+		string last_login_ip = 8;
+		 // 最后登录时间
+		google.protobuf.Timestamp last_login_time = 9;
+		 // 创建时间
+		google.protobuf.Timestamp create_time = 10;
+		 // 更新时间
+		google.protobuf.Timestamp update_time = 11;
+		 // 状态
+		int32 status = 12;
+	}
+	 // 分页总数
+	int32 total = 1;
+	 // 分页列表
+	repeated Admin list = 2;
+}
+
+message RoleListRequest {
+	int32 page = 1 [(validate.rules).int32 = {gt:0}];
+	int32 limit = 2 [(validate.rules).int32 = {gt:0, lt: 300}];
+}
+message RoleListReply {
+	 // ID
+	int64 id = 1;
+	 // 角色名称
+	string name = 2;
+}

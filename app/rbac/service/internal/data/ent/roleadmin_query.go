@@ -83,8 +83,8 @@ func (raq *RoleAdminQuery) FirstX(ctx context.Context) *RoleAdmin {
 
 // FirstID returns the first RoleAdmin ID from the query.
 // Returns a *NotFoundError when no RoleAdmin ID was found.
-func (raq *RoleAdminQuery) FirstID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (raq *RoleAdminQuery) FirstID(ctx context.Context) (id int64, err error) {
+	var ids []int64
 	if ids, err = raq.Limit(1).IDs(ctx); err != nil {
 		return
 	}
@@ -96,7 +96,7 @@ func (raq *RoleAdminQuery) FirstID(ctx context.Context) (id int, err error) {
 }
 
 // FirstIDX is like FirstID, but panics if an error occurs.
-func (raq *RoleAdminQuery) FirstIDX(ctx context.Context) int {
+func (raq *RoleAdminQuery) FirstIDX(ctx context.Context) int64 {
 	id, err := raq.FirstID(ctx)
 	if err != nil && !IsNotFound(err) {
 		panic(err)
@@ -134,8 +134,8 @@ func (raq *RoleAdminQuery) OnlyX(ctx context.Context) *RoleAdmin {
 // OnlyID is like Only, but returns the only RoleAdmin ID in the query.
 // Returns a *NotSingularError when more than one RoleAdmin ID is found.
 // Returns a *NotFoundError when no entities are found.
-func (raq *RoleAdminQuery) OnlyID(ctx context.Context) (id int, err error) {
-	var ids []int
+func (raq *RoleAdminQuery) OnlyID(ctx context.Context) (id int64, err error) {
+	var ids []int64
 	if ids, err = raq.Limit(2).IDs(ctx); err != nil {
 		return
 	}
@@ -151,7 +151,7 @@ func (raq *RoleAdminQuery) OnlyID(ctx context.Context) (id int, err error) {
 }
 
 // OnlyIDX is like OnlyID, but panics if an error occurs.
-func (raq *RoleAdminQuery) OnlyIDX(ctx context.Context) int {
+func (raq *RoleAdminQuery) OnlyIDX(ctx context.Context) int64 {
 	id, err := raq.OnlyID(ctx)
 	if err != nil {
 		panic(err)
@@ -177,8 +177,8 @@ func (raq *RoleAdminQuery) AllX(ctx context.Context) []*RoleAdmin {
 }
 
 // IDs executes the query and returns a list of RoleAdmin IDs.
-func (raq *RoleAdminQuery) IDs(ctx context.Context) ([]int, error) {
-	var ids []int
+func (raq *RoleAdminQuery) IDs(ctx context.Context) ([]int64, error) {
+	var ids []int64
 	if err := raq.Select(roleadmin.FieldID).Scan(ctx, &ids); err != nil {
 		return nil, err
 	}
@@ -186,7 +186,7 @@ func (raq *RoleAdminQuery) IDs(ctx context.Context) ([]int, error) {
 }
 
 // IDsX is like IDs, but panics if an error occurs.
-func (raq *RoleAdminQuery) IDsX(ctx context.Context) []int {
+func (raq *RoleAdminQuery) IDsX(ctx context.Context) []int64 {
 	ids, err := raq.IDs(ctx)
 	if err != nil {
 		panic(err)
@@ -361,7 +361,7 @@ func (raq *RoleAdminQuery) querySpec() *sqlgraph.QuerySpec {
 			Table:   roleadmin.Table,
 			Columns: roleadmin.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: roleadmin.FieldID,
 			},
 		},

@@ -41,14 +41,14 @@ func (rau *RoleAdminUpdate) AddRoleID(i int) *RoleAdminUpdate {
 }
 
 // SetAdminID sets the "admin_id" field.
-func (rau *RoleAdminUpdate) SetAdminID(i int) *RoleAdminUpdate {
+func (rau *RoleAdminUpdate) SetAdminID(i int64) *RoleAdminUpdate {
 	rau.mutation.ResetAdminID()
 	rau.mutation.SetAdminID(i)
 	return rau
 }
 
 // AddAdminID adds i to the "admin_id" field.
-func (rau *RoleAdminUpdate) AddAdminID(i int) *RoleAdminUpdate {
+func (rau *RoleAdminUpdate) AddAdminID(i int64) *RoleAdminUpdate {
 	rau.mutation.AddAdminID(i)
 	return rau
 }
@@ -118,7 +118,7 @@ func (rau *RoleAdminUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Table:   roleadmin.Table,
 			Columns: roleadmin.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: roleadmin.FieldID,
 			},
 		},
@@ -146,14 +146,14 @@ func (rau *RoleAdminUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if value, ok := rau.mutation.AdminID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: roleadmin.FieldAdminID,
 		})
 	}
 	if value, ok := rau.mutation.AddedAdminID(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: roleadmin.FieldAdminID,
 		})
@@ -191,14 +191,14 @@ func (rauo *RoleAdminUpdateOne) AddRoleID(i int) *RoleAdminUpdateOne {
 }
 
 // SetAdminID sets the "admin_id" field.
-func (rauo *RoleAdminUpdateOne) SetAdminID(i int) *RoleAdminUpdateOne {
+func (rauo *RoleAdminUpdateOne) SetAdminID(i int64) *RoleAdminUpdateOne {
 	rauo.mutation.ResetAdminID()
 	rauo.mutation.SetAdminID(i)
 	return rauo
 }
 
 // AddAdminID adds i to the "admin_id" field.
-func (rauo *RoleAdminUpdateOne) AddAdminID(i int) *RoleAdminUpdateOne {
+func (rauo *RoleAdminUpdateOne) AddAdminID(i int64) *RoleAdminUpdateOne {
 	rauo.mutation.AddAdminID(i)
 	return rauo
 }
@@ -281,7 +281,7 @@ func (rauo *RoleAdminUpdateOne) sqlSave(ctx context.Context) (_node *RoleAdmin, 
 			Table:   roleadmin.Table,
 			Columns: roleadmin.Columns,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: roleadmin.FieldID,
 			},
 		},
@@ -326,14 +326,14 @@ func (rauo *RoleAdminUpdateOne) sqlSave(ctx context.Context) (_node *RoleAdmin, 
 	}
 	if value, ok := rauo.mutation.AdminID(); ok {
 		_spec.Fields.Set = append(_spec.Fields.Set, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: roleadmin.FieldAdminID,
 		})
 	}
 	if value, ok := rauo.mutation.AddedAdminID(); ok {
 		_spec.Fields.Add = append(_spec.Fields.Add, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: roleadmin.FieldAdminID,
 		})

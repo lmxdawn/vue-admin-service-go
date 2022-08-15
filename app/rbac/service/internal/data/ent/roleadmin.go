@@ -14,11 +14,11 @@ import (
 type RoleAdmin struct {
 	config `json:"-"`
 	// ID of the ent.
-	ID int `json:"id,omitempty"`
+	ID int64 `json:"id,omitempty"`
 	// RoleID holds the value of the "role_id" field.
 	RoleID int `json:"role_id,omitempty"`
 	// AdminID holds the value of the "admin_id" field.
-	AdminID int `json:"admin_id,omitempty"`
+	AdminID int64 `json:"admin_id,omitempty"`
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -48,7 +48,7 @@ func (ra *RoleAdmin) assignValues(columns []string, values []interface{}) error 
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			ra.ID = int(value.Int64)
+			ra.ID = int64(value.Int64)
 		case roleadmin.FieldRoleID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field role_id", values[i])
@@ -59,7 +59,7 @@ func (ra *RoleAdmin) assignValues(columns []string, values []interface{}) error 
 			if value, ok := values[i].(*sql.NullInt64); !ok {
 				return fmt.Errorf("unexpected type %T for field admin_id", values[i])
 			} else if value.Valid {
-				ra.AdminID = int(value.Int64)
+				ra.AdminID = value.Int64
 			}
 		}
 	}

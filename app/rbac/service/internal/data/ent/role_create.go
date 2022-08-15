@@ -63,7 +63,7 @@ func (rc *RoleCreate) SetUpdateTime(t time.Time) *RoleCreate {
 }
 
 // SetID sets the "id" field.
-func (rc *RoleCreate) SetID(i int64) *RoleCreate {
+func (rc *RoleCreate) SetID(i int) *RoleCreate {
 	rc.mutation.SetID(i)
 	return rc
 }
@@ -178,7 +178,7 @@ func (rc *RoleCreate) sqlSave(ctx context.Context) (*Role, error) {
 	}
 	if _spec.ID.Value != _node.ID {
 		id := _spec.ID.Value.(int64)
-		_node.ID = int64(id)
+		_node.ID = int(id)
 	}
 	return _node, nil
 }
@@ -189,7 +189,7 @@ func (rc *RoleCreate) createSpec() (*Role, *sqlgraph.CreateSpec) {
 		_spec = &sqlgraph.CreateSpec{
 			Table: role.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt64,
+				Type:   field.TypeInt,
 				Column: role.FieldID,
 			},
 		}
@@ -299,7 +299,7 @@ func (rcb *RoleCreateBulk) Save(ctx context.Context) ([]*Role, error) {
 				mutation.id = &nodes[i].ID
 				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int64(id)
+					nodes[i].ID = int(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

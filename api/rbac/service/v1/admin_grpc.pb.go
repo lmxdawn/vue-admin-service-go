@@ -25,8 +25,8 @@ type AdminClient interface {
 	CreateAdmin(ctx context.Context, in *CreateAdminRequest, opts ...grpc.CallOption) (*CreateAdminReply, error)
 	UpdateAdmin(ctx context.Context, in *UpdateAdminRequest, opts ...grpc.CallOption) (*UpdateAdminReply, error)
 	DeleteAdmin(ctx context.Context, in *DeleteAdminRequest, opts ...grpc.CallOption) (*DeleteAdminReply, error)
-	GetAdmin(ctx context.Context, in *GetAdminRequest, opts ...grpc.CallOption) (*GetAdminReply, error)
 	ListAdmin(ctx context.Context, in *ListAdminRequest, opts ...grpc.CallOption) (*ListAdminReply, error)
+	RoleList(ctx context.Context, in *RoleListRequest, opts ...grpc.CallOption) (*RoleListReply, error)
 }
 
 type adminClient struct {
@@ -64,18 +64,18 @@ func (c *adminClient) DeleteAdmin(ctx context.Context, in *DeleteAdminRequest, o
 	return out, nil
 }
 
-func (c *adminClient) GetAdmin(ctx context.Context, in *GetAdminRequest, opts ...grpc.CallOption) (*GetAdminReply, error) {
-	out := new(GetAdminReply)
-	err := c.cc.Invoke(ctx, "/api.rbac.service.v1.Admin/GetAdmin", in, out, opts...)
+func (c *adminClient) ListAdmin(ctx context.Context, in *ListAdminRequest, opts ...grpc.CallOption) (*ListAdminReply, error) {
+	out := new(ListAdminReply)
+	err := c.cc.Invoke(ctx, "/api.rbac.service.v1.Admin/ListAdmin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *adminClient) ListAdmin(ctx context.Context, in *ListAdminRequest, opts ...grpc.CallOption) (*ListAdminReply, error) {
-	out := new(ListAdminReply)
-	err := c.cc.Invoke(ctx, "/api.rbac.service.v1.Admin/ListAdmin", in, out, opts...)
+func (c *adminClient) RoleList(ctx context.Context, in *RoleListRequest, opts ...grpc.CallOption) (*RoleListReply, error) {
+	out := new(RoleListReply)
+	err := c.cc.Invoke(ctx, "/api.rbac.service.v1.Admin/RoleList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -89,8 +89,8 @@ type AdminServer interface {
 	CreateAdmin(context.Context, *CreateAdminRequest) (*CreateAdminReply, error)
 	UpdateAdmin(context.Context, *UpdateAdminRequest) (*UpdateAdminReply, error)
 	DeleteAdmin(context.Context, *DeleteAdminRequest) (*DeleteAdminReply, error)
-	GetAdmin(context.Context, *GetAdminRequest) (*GetAdminReply, error)
 	ListAdmin(context.Context, *ListAdminRequest) (*ListAdminReply, error)
+	RoleList(context.Context, *RoleListRequest) (*RoleListReply, error)
 	mustEmbedUnimplementedAdminServer()
 }
 
@@ -107,11 +107,11 @@ func (UnimplementedAdminServer) UpdateAdmin(context.Context, *UpdateAdminRequest
 func (UnimplementedAdminServer) DeleteAdmin(context.Context, *DeleteAdminRequest) (*DeleteAdminReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteAdmin not implemented")
 }
-func (UnimplementedAdminServer) GetAdmin(context.Context, *GetAdminRequest) (*GetAdminReply, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetAdmin not implemented")
-}
 func (UnimplementedAdminServer) ListAdmin(context.Context, *ListAdminRequest) (*ListAdminReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListAdmin not implemented")
+}
+func (UnimplementedAdminServer) RoleList(context.Context, *RoleListRequest) (*RoleListReply, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RoleList not implemented")
 }
 func (UnimplementedAdminServer) mustEmbedUnimplementedAdminServer() {}
 
@@ -180,24 +180,6 @@ func _Admin_DeleteAdmin_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Admin_GetAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAdminRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdminServer).GetAdmin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/api.rbac.service.v1.Admin/GetAdmin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServer).GetAdmin(ctx, req.(*GetAdminRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Admin_ListAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListAdminRequest)
 	if err := dec(in); err != nil {
@@ -212,6 +194,24 @@ func _Admin_ListAdmin_Handler(srv interface{}, ctx context.Context, dec func(int
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServer).ListAdmin(ctx, req.(*ListAdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Admin_RoleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoleListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServer).RoleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/api.rbac.service.v1.Admin/RoleList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServer).RoleList(ctx, req.(*RoleListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -236,12 +236,12 @@ var Admin_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Admin_DeleteAdmin_Handler,
 		},
 		{
-			MethodName: "GetAdmin",
-			Handler:    _Admin_GetAdmin_Handler,
-		},
-		{
 			MethodName: "ListAdmin",
 			Handler:    _Admin_ListAdmin_Handler,
+		},
+		{
+			MethodName: "RoleList",
+			Handler:    _Admin_RoleList_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

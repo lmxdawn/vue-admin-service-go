@@ -37,6 +37,12 @@ func (pc *PermissionCreate) SetType(s string) *PermissionCreate {
 	return pc
 }
 
+// SetID sets the "id" field.
+func (pc *PermissionCreate) SetID(i int) *PermissionCreate {
+	pc.mutation.SetID(i)
+	return pc
+}
+
 // Mutation returns the PermissionMutation object of the builder.
 func (pc *PermissionCreate) Mutation() *PermissionMutation {
 	return pc.mutation
@@ -133,8 +139,10 @@ func (pc *PermissionCreate) sqlSave(ctx context.Context) (*Permission, error) {
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = int(id)
+	}
 	return _node, nil
 }
 
@@ -149,6 +157,10 @@ func (pc *PermissionCreate) createSpec() (*Permission, *sqlgraph.CreateSpec) {
 			},
 		}
 	)
+	if id, ok := pc.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := pc.mutation.RoleID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt,
@@ -216,7 +228,7 @@ func (pcb *PermissionCreateBulk) Save(ctx context.Context) ([]*Permission, error
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
 					nodes[i].ID = int(id)
 				}

@@ -72,7 +72,7 @@ func (rad *RoleAdminDelete) sqlExec(ctx context.Context) (int, error) {
 		Node: &sqlgraph.NodeSpec{
 			Table: roleadmin.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: roleadmin.FieldID,
 			},
 		},

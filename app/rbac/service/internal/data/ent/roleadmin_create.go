@@ -26,8 +26,14 @@ func (rac *RoleAdminCreate) SetRoleID(i int) *RoleAdminCreate {
 }
 
 // SetAdminID sets the "admin_id" field.
-func (rac *RoleAdminCreate) SetAdminID(i int) *RoleAdminCreate {
+func (rac *RoleAdminCreate) SetAdminID(i int64) *RoleAdminCreate {
 	rac.mutation.SetAdminID(i)
+	return rac
+}
+
+// SetID sets the "id" field.
+func (rac *RoleAdminCreate) SetID(i int64) *RoleAdminCreate {
+	rac.mutation.SetID(i)
 	return rac
 }
 
@@ -124,8 +130,10 @@ func (rac *RoleAdminCreate) sqlSave(ctx context.Context) (*RoleAdmin, error) {
 		}
 		return nil, err
 	}
-	id := _spec.ID.Value.(int64)
-	_node.ID = int(id)
+	if _spec.ID.Value != _node.ID {
+		id := _spec.ID.Value.(int64)
+		_node.ID = int64(id)
+	}
 	return _node, nil
 }
 
@@ -135,11 +143,15 @@ func (rac *RoleAdminCreate) createSpec() (*RoleAdmin, *sqlgraph.CreateSpec) {
 		_spec = &sqlgraph.CreateSpec{
 			Table: roleadmin.Table,
 			ID: &sqlgraph.FieldSpec{
-				Type:   field.TypeInt,
+				Type:   field.TypeInt64,
 				Column: roleadmin.FieldID,
 			},
 		}
 	)
+	if id, ok := rac.mutation.ID(); ok {
+		_node.ID = id
+		_spec.ID.Value = id
+	}
 	if value, ok := rac.mutation.RoleID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
 			Type:   field.TypeInt,
@@ -150,7 +162,7 @@ func (rac *RoleAdminCreate) createSpec() (*RoleAdmin, *sqlgraph.CreateSpec) {
 	}
 	if value, ok := rac.mutation.AdminID(); ok {
 		_spec.Fields = append(_spec.Fields, &sqlgraph.FieldSpec{
-			Type:   field.TypeInt,
+			Type:   field.TypeInt64,
 			Value:  value,
 			Column: roleadmin.FieldAdminID,
 		})
@@ -199,9 +211,9 @@ func (racb *RoleAdminCreateBulk) Save(ctx context.Context) ([]*RoleAdmin, error)
 					return nil, err
 				}
 				mutation.id = &nodes[i].ID
-				if specs[i].ID.Value != nil {
+				if specs[i].ID.Value != nil && nodes[i].ID == 0 {
 					id := specs[i].ID.Value.(int64)
-					nodes[i].ID = int(id)
+					nodes[i].ID = int64(id)
 				}
 				mutation.done = true
 				return nodes[i], nil

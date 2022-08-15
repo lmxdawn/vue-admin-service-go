@@ -10,28 +10,28 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int64) predicate.Role {
+func ID(id int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldID), id))
 	})
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int64) predicate.Role {
+func IDEQ(id int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldID), id))
 	})
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int64) predicate.Role {
+func IDNEQ(id int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldID), id))
 	})
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int64) predicate.Role {
+func IDIn(ids ...int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		v := make([]interface{}, len(ids))
 		for i := range v {
@@ -42,7 +42,7 @@ func IDIn(ids ...int64) predicate.Role {
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int64) predicate.Role {
+func IDNotIn(ids ...int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		v := make([]interface{}, len(ids))
 		for i := range v {
@@ -53,28 +53,28 @@ func IDNotIn(ids ...int64) predicate.Role {
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int64) predicate.Role {
+func IDGT(id int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldID), id))
 	})
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int64) predicate.Role {
+func IDGTE(id int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldID), id))
 	})
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int64) predicate.Role {
+func IDLT(id int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldID), id))
 	})
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int64) predicate.Role {
+func IDLTE(id int) predicate.Role {
 	return predicate.Role(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldID), id))
 	})

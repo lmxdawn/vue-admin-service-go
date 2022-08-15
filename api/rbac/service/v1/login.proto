@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package api.rbac.service.v1;
+
+import "validate/validate.proto";
+
+option go_package = "vue-admin/api/rbac/service/v1;v1";
+
+service Login {
+    rpc Login (LoginRequest) returns (LoginReply);
+    rpc UserInfo (UserInfoRequest) returns (UserInfoReply);
+    rpc Password (PasswordRequest) returns (PasswordReply);
+}
+
+message LoginRequest {
+    // ip地址
+    string ip = 1;
+    // 用户名
+    string username = 2 [(validate.rules).string = {min_len: 1, max_len: 255}];
+    // 密码
+    string pwd = 3 [(validate.rules).string = {min_len: 1, max_len: 255}];
+}
+
+message LoginReply {
+    // 用户ID
+    int64 id = 1;
+}
+
+message UserInfoRequest {}
+message UserInfoReply {
+    // 用户ID
+    int64 id = 1;
+    // 用户名
+    string username = 2;
+    // 头像
+    string avatar = 3;
+    // 权限列表
+    repeated string auth_rules = 4;
+}
+
+message PasswordRequest {
+    // 管理员ID
+    int64 admin_id = 1 [(validate.rules).int64 = {gt: 0}];
+    // 旧密码
+    string old_password = 2 [(validate.rules).string = {min_len: 1, max_len: 255}];
+    // 新密码
+    string new_password = 3 [(validate.rules).string = {min_len: 1, max_len: 255}];
+}
+
+message PasswordReply {
+}

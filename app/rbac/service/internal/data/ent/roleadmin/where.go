@@ -9,28 +9,28 @@ import (
 )
 
 // ID filters vertices based on their ID field.
-func ID(id int) predicate.RoleAdmin {
+func ID(id int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldID), id))
 	})
 }
 
 // IDEQ applies the EQ predicate on the ID field.
-func IDEQ(id int) predicate.RoleAdmin {
+func IDEQ(id int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldID), id))
 	})
 }
 
 // IDNEQ applies the NEQ predicate on the ID field.
-func IDNEQ(id int) predicate.RoleAdmin {
+func IDNEQ(id int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldID), id))
 	})
 }
 
 // IDIn applies the In predicate on the ID field.
-func IDIn(ids ...int) predicate.RoleAdmin {
+func IDIn(ids ...int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		v := make([]interface{}, len(ids))
 		for i := range v {
@@ -41,7 +41,7 @@ func IDIn(ids ...int) predicate.RoleAdmin {
 }
 
 // IDNotIn applies the NotIn predicate on the ID field.
-func IDNotIn(ids ...int) predicate.RoleAdmin {
+func IDNotIn(ids ...int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		v := make([]interface{}, len(ids))
 		for i := range v {
@@ -52,28 +52,28 @@ func IDNotIn(ids ...int) predicate.RoleAdmin {
 }
 
 // IDGT applies the GT predicate on the ID field.
-func IDGT(id int) predicate.RoleAdmin {
+func IDGT(id int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldID), id))
 	})
 }
 
 // IDGTE applies the GTE predicate on the ID field.
-func IDGTE(id int) predicate.RoleAdmin {
+func IDGTE(id int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldID), id))
 	})
 }
 
 // IDLT applies the LT predicate on the ID field.
-func IDLT(id int) predicate.RoleAdmin {
+func IDLT(id int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldID), id))
 	})
 }
 
 // IDLTE applies the LTE predicate on the ID field.
-func IDLTE(id int) predicate.RoleAdmin {
+func IDLTE(id int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldID), id))
 	})
@@ -87,7 +87,7 @@ func RoleID(v int) predicate.RoleAdmin {
 }
 
 // AdminID applies equality check predicate on the "admin_id" field. It's identical to AdminIDEQ.
-func AdminID(v int) predicate.RoleAdmin {
+func AdminID(v int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldAdminID), v))
 	})
@@ -158,21 +158,21 @@ func RoleIDLTE(v int) predicate.RoleAdmin {
 }
 
 // AdminIDEQ applies the EQ predicate on the "admin_id" field.
-func AdminIDEQ(v int) predicate.RoleAdmin {
+func AdminIDEQ(v int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.EQ(s.C(FieldAdminID), v))
 	})
 }
 
 // AdminIDNEQ applies the NEQ predicate on the "admin_id" field.
-func AdminIDNEQ(v int) predicate.RoleAdmin {
+func AdminIDNEQ(v int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.NEQ(s.C(FieldAdminID), v))
 	})
 }
 
 // AdminIDIn applies the In predicate on the "admin_id" field.
-func AdminIDIn(vs ...int) predicate.RoleAdmin {
+func AdminIDIn(vs ...int64) predicate.RoleAdmin {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -183,7 +183,7 @@ func AdminIDIn(vs ...int) predicate.RoleAdmin {
 }
 
 // AdminIDNotIn applies the NotIn predicate on the "admin_id" field.
-func AdminIDNotIn(vs ...int) predicate.RoleAdmin {
+func AdminIDNotIn(vs ...int64) predicate.RoleAdmin {
 	v := make([]interface{}, len(vs))
 	for i := range v {
 		v[i] = vs[i]
@@ -194,28 +194,28 @@ func AdminIDNotIn(vs ...int) predicate.RoleAdmin {
 }
 
 // AdminIDGT applies the GT predicate on the "admin_id" field.
-func AdminIDGT(v int) predicate.RoleAdmin {
+func AdminIDGT(v int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.GT(s.C(FieldAdminID), v))
 	})
 }
 
 // AdminIDGTE applies the GTE predicate on the "admin_id" field.
-func AdminIDGTE(v int) predicate.RoleAdmin {
+func AdminIDGTE(v int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.GTE(s.C(FieldAdminID), v))
 	})
 }
 
 // AdminIDLT applies the LT predicate on the "admin_id" field.
-func AdminIDLT(v int) predicate.RoleAdmin {
+func AdminIDLT(v int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.LT(s.C(FieldAdminID), v))
 	})
 }
 
 // AdminIDLTE applies the LTE predicate on the "admin_id" field.
-func AdminIDLTE(v int) predicate.RoleAdmin {
+func AdminIDLTE(v int64) predicate.RoleAdmin {
 	return predicate.RoleAdmin(func(s *sql.Selector) {
 		s.Where(sql.LTE(s.C(FieldAdminID), v))
 	})

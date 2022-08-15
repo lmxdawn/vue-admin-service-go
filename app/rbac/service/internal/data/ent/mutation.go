@@ -1047,6 +1047,12 @@ func (m PermissionMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of Permission entities.
+func (m *PermissionMutation) SetID(id int) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
 func (m *PermissionMutation) ID() (id int, exists bool) {
@@ -2250,7 +2256,7 @@ type RoleMutation struct {
 	config
 	op            Op
 	typ           string
-	id            *int64
+	id            *int
 	name          *string
 	pid           *int
 	addpid        *int
@@ -2287,7 +2293,7 @@ func newRoleMutation(c config, op Op, opts ...roleOption) *RoleMutation {
 }
 
 // withRoleID sets the ID field of the mutation.
-func withRoleID(id int64) roleOption {
+func withRoleID(id int) roleOption {
 	return func(m *RoleMutation) {
 		var (
 			err   error
@@ -2339,13 +2345,13 @@ func (m RoleMutation) Tx() (*Tx, error) {
 
 // SetID sets the value of the id field. Note that this
 // operation is only accepted on creation of Role entities.
-func (m *RoleMutation) SetID(id int64) {
+func (m *RoleMutation) SetID(id int) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *RoleMutation) ID() (id int64, exists bool) {
+func (m *RoleMutation) ID() (id int, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -2356,12 +2362,12 @@ func (m *RoleMutation) ID() (id int64, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *RoleMutation) IDs(ctx context.Context) ([]int64, error) {
+func (m *RoleMutation) IDs(ctx context.Context) ([]int, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []int64{id}, nil
+			return []int{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
@@ -2993,11 +2999,11 @@ type RoleAdminMutation struct {
 	config
 	op            Op
 	typ           string
-	id            *int
+	id            *int64
 	role_id       *int
 	addrole_id    *int
-	admin_id      *int
-	addadmin_id   *int
+	admin_id      *int64
+	addadmin_id   *int64
 	clearedFields map[string]struct{}
 	done          bool
 	oldValue      func(context.Context) (*RoleAdmin, error)
@@ -3024,7 +3030,7 @@ func newRoleAdminMutation(c config, op Op, opts ...roleadminOption) *RoleAdminMu
 }
 
 // withRoleAdminID sets the ID field of the mutation.
-func withRoleAdminID(id int) roleadminOption {
+func withRoleAdminID(id int64) roleadminOption {
 	return func(m *RoleAdminMutation) {
 		var (
 			err   error
@@ -3074,9 +3080,15 @@ func (m RoleAdminMutation) Tx() (*Tx, error) {
 	return tx, nil
 }
 
+// SetID sets the value of the id field. Note that this
+// operation is only accepted on creation of RoleAdmin entities.
+func (m *RoleAdminMutation) SetID(id int64) {
+	m.id = &id
+}
+
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *RoleAdminMutation) ID() (id int, exists bool) {
+func (m *RoleAdminMutation) ID() (id int64, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -3087,12 +3099,12 @@ func (m *RoleAdminMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *RoleAdminMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *RoleAdminMutation) IDs(ctx context.Context) ([]int64, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
 		if exists {
-			return []int{id}, nil
+			return []int64{id}, nil
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
@@ -3159,13 +3171,13 @@ func (m *RoleAdminMutation) ResetRoleID() {
 }
 
 // SetAdminID sets the "admin_id" field.
-func (m *RoleAdminMutation) SetAdminID(i int) {
+func (m *RoleAdminMutation) SetAdminID(i int64) {
 	m.admin_id = &i
 	m.addadmin_id = nil
 }
 
 // AdminID returns the value of the "admin_id" field in the mutation.
-func (m *RoleAdminMutation) AdminID() (r int, exists bool) {
+func (m *RoleAdminMutation) AdminID() (r int64, exists bool) {
 	v := m.admin_id
 	if v == nil {
 		return
@@ -3176,7 +3188,7 @@ func (m *RoleAdminMutation) AdminID() (r int, exists bool) {
 // OldAdminID returns the old "admin_id" field's value of the RoleAdmin entity.
 // If the RoleAdmin object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *RoleAdminMutation) OldAdminID(ctx context.Context) (v int, err error) {
+func (m *RoleAdminMutation) OldAdminID(ctx context.Context) (v int64, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldAdminID is only allowed on UpdateOne operations")
 	}
@@ -3191,7 +3203,7 @@ func (m *RoleAdminMutation) OldAdminID(ctx context.Context) (v int, err error) {
 }
 
 // AddAdminID adds i to the "admin_id" field.
-func (m *RoleAdminMutation) AddAdminID(i int) {
+func (m *RoleAdminMutation) AddAdminID(i int64) {
 	if m.addadmin_id != nil {
 		*m.addadmin_id += i
 	} else {
@@ -3200,7 +3212,7 @@ func (m *RoleAdminMutation) AddAdminID(i int) {
 }
 
 // AddedAdminID returns the value that was added to the "admin_id" field in this mutation.
-func (m *RoleAdminMutation) AddedAdminID() (r int, exists bool) {
+func (m *RoleAdminMutation) AddedAdminID() (r int64, exists bool) {
 	v := m.addadmin_id
 	if v == nil {
 		return
@@ -3282,7 +3294,7 @@ func (m *RoleAdminMutation) SetField(name string, value ent.Value) error {
 		m.SetRoleID(v)
 		return nil
 	case roleadmin.FieldAdminID:
-		v, ok := value.(int)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3331,7 +3343,7 @@ func (m *RoleAdminMutation) AddField(name string, value ent.Value) error {
 		m.AddRoleID(v)
 		return nil
 	case roleadmin.FieldAdminID:
-		v, ok := value.(int)
+		v, ok := value.(int64)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}

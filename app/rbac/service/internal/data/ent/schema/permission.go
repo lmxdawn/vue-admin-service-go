@@ -22,6 +22,7 @@ func (Permission) Annotations() []schema.Annotation {
 // Fields of the Permission.
 func (Permission) Fields() []ent.Field {
 	return []ent.Field{
+		field.Int("id"),
 		field.Int("role_id"),
 		field.Int("permission_rule_id"),
 		field.String("type"),

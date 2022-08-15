@@ -17,15 +17,62 @@
   ],
   "paths": {},
   "definitions": {
-    "CreateAdminReplyAdmin": {
+    "ListAdminReplyAdmin": {
       "type": "object",
       "properties": {
         "id": {
           "type": "string",
-          "format": "int64"
+          "format": "int64",
+          "title": "主键"
         },
         "username": {
-          "type": "string"
+          "type": "string",
+          "title": "昵称"
+        },
+        "password": {
+          "type": "string",
+          "title": "登录密码"
+        },
+        "tel": {
+          "type": "string",
+          "title": "手机号"
+        },
+        "email": {
+          "type": "string",
+          "title": "邮箱"
+        },
+        "avatar": {
+          "type": "string",
+          "title": "头像"
+        },
+        "sex": {
+          "type": "integer",
+          "format": "int32",
+          "title": "性别"
+        },
+        "lastLoginIp": {
+          "type": "string",
+          "title": "最后登录ip"
+        },
+        "lastLoginTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "最后登录时间"
+        },
+        "createTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "创建时间"
+        },
+        "updateTime": {
+          "type": "string",
+          "format": "date-time",
+          "title": "更新时间"
+        },
+        "status": {
+          "type": "integer",
+          "format": "int32",
+          "title": "状态"
         }
       }
     },
@@ -59,19 +106,46 @@
     "v1CreateAdminReply": {
       "type": "object",
       "properties": {
-        "admin": {
-          "$ref": "#/definitions/CreateAdminReplyAdmin"
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "管理员id"
         }
       }
     },
     "v1DeleteAdminReply": {
       "type": "object"
     },
-    "v1GetAdminReply": {
-      "type": "object"
-    },
     "v1ListAdminReply": {
-      "type": "object"
+      "type": "object",
+      "properties": {
+        "total": {
+          "type": "integer",
+          "format": "int32",
+          "title": "分页总数"
+        },
+        "list": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ListAdminReplyAdmin"
+          },
+          "title": "分页列表"
+        }
+      }
+    },
+    "v1RoleListReply": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "format": "int64",
+          "title": "ID"
+        },
+        "name": {
+          "type": "string",
+          "title": "角色名称"
+        }
+      }
     },
     "v1UpdateAdminReply": {
       "type": "object"
